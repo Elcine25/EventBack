@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        $chema::table("notifications", function(Blueprint $table) {
+        Schema::table("notifications", function(Blueprint $table) {
             $table->dropConstrainedForeignId("visiteurs_Id");
         });
         Schema::dropIfExists('notifications');

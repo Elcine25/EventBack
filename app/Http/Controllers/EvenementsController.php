@@ -16,62 +16,23 @@ class EvenementsController extends Controller
     {
         //$user = Auth::user();
         $evenements = Evenements::all();
-        if($evenements->count()>0){
-        return response()->json([
-            'status'=>200, 
-            'evenements'=>$evenements
-        ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Aucun raccord"
-            ], 404);
-        }
-    }
-
-    public function indexCa()
-    {
-        //$user = Auth::user();
         $categories = Categorie::all();
-        if($categories->count()>0){
-        return response()->json([
-            'status'=>200, 
-            'categories'=>$categories
-        ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Aucun raccord"
-            ], 404);
-        }
-    }
-
-    public function indexVi()
-    {
-        //$user = Auth::user();
         $villes = Ville::all();
-        if($villes->count()>0){
-        return response()->json([
-            'status'=>200, 
-            'villes'=>$villes
-        ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Aucun raccord"
-            ], 404);
-        }
+        return view('events.index', compact('evenements', 'villes'));
+        
     }
-
 
 
     public function create()
     {
-        //
+        $villes = Ville::all();
+        $categories = Categorie::all();
+        return view('events.create', compact('categories', 'villes'));
     }
 
     public function store(Request $request)
     {
+        
     $validator= Validator::make($request->all(), [
         'nom'=>'required|string|max:191',
         'description'=>'required|string|max:300',
@@ -81,33 +42,11 @@ class EvenementsController extends Controller
         'heure'=>'required|date_format:H:i',
         'categories_id'=>'required|max:300',
     ]);
-    if($validator->fails()){
-        return response()->json([
-            'status' => 422,
-            'errors'=> $validator->messages()
-        ], 422);
-    }else{
-        $evenements= Evenements::create([
-            'nom' =>$request->nom,
-            'description' =>$request->description,
-            'lieu' =>$request->lieu,
-            'villes_id' =>$request->villes_id,
-            'date' =>$request->date,
-            'heure' =>$request->heure,
-            'categories_id' =>$request->categories_id,
-        ]);
-        if($evenements){
-            return response()->json([
-                'status'=> 200, 
-                'message'=>"Événement crée avec succès"
-            ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Événement non crée"
-            ], 404);
-        }
-    }
+    //dd($request->all());
+    $validator = $request->all();
+    $evenement = Evenements::create($validator);
+    return redirect()->route('event-index')->with('success', 'Evenement ajouté avec succès');
+
     
     }
 
@@ -131,61 +70,9 @@ class EvenementsController extends Controller
     {
         
         $evenements= Evenements::find($id);
-        if($evenements){
-            return response()->json([
-                'status'=> 200, 
-                'evenements'=>$evenements
-            ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Événement non trouvé"
-            ], 404);
-        }
+        return view('events.edit', compact('evenements'));
+       
     }
-
-   /** public function update(Request $request, int $id)
-    {
-        $validator= Validator::make($request->all(), [
-            'nom'=>'required|string|max:191',
-        'description'=>'required|string|max:300',
-        'lieu'=>'required|string|max:300',
-        'villes_id'=>'required|string|max:300',
-        'date'=>'required|date',
-        'heure'=>'required|date_format:H:i',
-        'categories_id'=>'required|string|max:300',
-        ]);
-        if($validator->fails()){
-            return response()->json([
-                'status' => 422,
-                'errors' => $validator->messages()
-            ], 422);
-        }else{
-            $evenements= Evenements::find($id);
-                
-            if($evenements){
-                $evenements->update([
-                    'nom'=>'required|string|max:191',
-        'description'=>'required|string|max:300',
-        'lieu'=>'required|string|max:300',
-        'villes_id'=>'required|string|max:300',
-        'date'=>'required|date',
-        'heure'=>'required|date_format:H:i',
-        'categories_id'=>'required|string|max:300',
-                ]);
-                return response()->json([
-                    'status'=> 200, 
-                    'message'=>"Événement mis à jour avec succès"
-                ], 200);
-            }else{
-                return response()->json([
-                    'status'=> 404, 
-                    'message'=>"Événement non mis à jour"
-                ], 404);
-            }
-        }
-        
-    }*/
 
     public function update(Request $request, int $id)
 {
@@ -198,46 +85,19 @@ class EvenementsController extends Controller
         'heure' => 'required|date_format:H:i',
         'categories_id' => 'required|string|max:300',
     ]);
-
-    if ($validator->fails()) {
-        return response()->json([
-            'status' => 422,
-            'errors' => $validator->messages()
-        ], 422);
-    }
-
+    $data = $request->all();
     $evenement = Evenements::find($id);
+    $evenement->update($data);
+    return redirect()->route('event-index')->with('success', 'Événement modifier avec succès');
 
-    if (!$evenement) {
-        return response()->json([
-            'status' => 404,
-            'message' => "Événement non trouvé"
-        ], 404);
-    }
 
-    $evenement->update($request->all());
-
-    return response()->json([
-        'status' => 200,
-        'message' => "Événement mis à jour avec succès"
-    ], 200);
 }
 
     public function destroy($id)
     {
-        $evenements= Evenements::find($id);
-        if($evenements){
-            $evenements->delete();
-            return responcse()->json([
-                'status'=> 200, 
-                'message'=>"Événement supprimé avec succès"
-            ], 200);
-        }
-        else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Événement non supprimé"
-            ], 404);
-        }
+        $evenement= Evenements::find($id);
+        $evenement->delete();
+        return back()->with('success', 'Événement supprimé avec succès');
+      
     }
 }

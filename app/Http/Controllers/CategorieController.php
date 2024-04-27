@@ -14,22 +14,23 @@ class CategorieController extends Controller
     {
         //$user = Auth::user();
         $categories = Categorie::all();
-        if($categories->count()>0){
-        return response()->json([
-            'status'=>200, 
-            'categories'=>$categories
-        ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Aucun raccord"
-            ], 404);
-        }
+        return view('categories.index', compact('categories'));
+        // if($categories->count()>0){
+        // return response()->json([
+        //     'status'=>200, 
+        //     'categories'=>$categories
+        // ], 200);
+        // }else{
+        //     return response()->json([
+        //         'status'=> 404, 
+        //         'message'=>"Aucun raccord"
+        //     ], 404);
+        // }
     }
 
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     public function store(Request $request)
@@ -38,28 +39,31 @@ class CategorieController extends Controller
         'name'=>'required|string|max:191',
         'description'=>'required|string|max:300',
     ]);
-    if($validator->fails()){
-        return response()->json([
-            'status' => 422,
-            'errors'=> $validator->messages()
-        ], 422);
-    }else{
-        $categorie= Categorie::create([
-            'name' =>$request->name,
-            'description' =>$request->description,
-        ]);
-        if($categorie){
-            return response()->json([
-                'status'=> 200, 
-                'message'=>"Catégorie crée avec succès"
-            ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Catégorie non crée"
-            ], 404);
-        }
-    }
+    $data = $request->all();
+    $categorie = Categorie::create($data);
+    return redirect()->route('categorie-index')->with('success', 'Catégorie ajouté avec succès');
+    // if($validator->fails()){
+    //     return response()->json([
+    //         'status' => 422,
+    //         'errors'=> $validator->messages()
+    //     ], 422);
+    // }else{
+    //     $categorie= Categorie::create([
+    //         'name' =>$request->name,
+    //         'description' =>$request->description,
+    //     ]);
+    //     if($categorie){
+    //         return response()->json([
+    //             'status'=> 200, 
+    //             'message'=>"Catégorie crée avec succès"
+    //         ], 200);
+    //     }else{
+    //         return response()->json([
+    //             'status'=> 404, 
+    //             'message'=>"Catégorie non crée"
+    //         ], 404);
+    //     }
+    // }
     
     }
 
@@ -83,17 +87,19 @@ class CategorieController extends Controller
     {
         
         $categorie= Categorie::find($id);
-        if($categorie){
-            return response()->json([
-                'status'=> 200, 
-                'categorie'=>$categorie
-            ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Catégorie non trouvée"
-            ], 404);
-        }
+        return view('categories.edit', compact('categorie'));
+
+        // if($categorie){
+        //     return response()->json([
+        //         'status'=> 200, 
+        //         'categorie'=>$categorie
+        //     ], 200);
+        // }else{
+        //     return response()->json([
+        //         'status'=> 404, 
+        //         'message'=>"Catégorie non trouvée"
+        //     ], 404);
+        // }
     }
 
     public function update(Request $request, int $id)
@@ -102,48 +108,54 @@ class CategorieController extends Controller
             'name'=>'required|string|max:191',
             'description'=>'required|string|max:300',
         ]);
-        if($validator->fails()){
-            return response()->json([
-                'status' => 422,
-                'errors' => $validator->messages()
-            ], 422);
-        }else{
-            $categorie= Categorie::find($id);
+        $data = $request->all();
+        $categorie= Categorie::find($id);
+        $categorie->update($data);
+        return redirect()->route('categorie-index')->with('success', 'Catégorie modifier avec succès');
+        // if($validator->fails()){
+        //     return response()->json([
+        //         'status' => 422,
+        //         'errors' => $validator->messages()
+        //     ], 422);
+        // }else{
+        //     $categorie= Categorie::find($id);
                 
-            if($categorie){
-                $categorie->update([
-                    'name' =>$request->name,
-                    'description' =>$request->description,
-                ]);
-                return response()->json([
-                    'status'=> 200, 
-                    'message'=>"Catégorie mise à jour avec succès"
-                ], 200);
-            }else{
-                return response()->json([
-                    'status'=> 404, 
-                    'message'=>"Catégorie non mise à jour"
-                ], 404);
-            }
-        }
+        //     if($categorie){
+        //         $categorie->update([
+        //             'name' =>$request->name,
+        //             'description' =>$request->description,
+        //         ]);
+        //         return response()->json([
+        //             'status'=> 200, 
+        //             'message'=>"Catégorie mise à jour avec succès"
+        //         ], 200);
+        //     }else{
+        //         return response()->json([
+        //             'status'=> 404, 
+        //             'message'=>"Catégorie non mise à jour"
+        //         ], 404);
+        //     }
+        // }
         
     }
 
     public function destroy($id)
     {
         $categorie= Categorie::find($id);
-        if($categorie){
-            $categorie->delete();
-            return response()->json([
-                'status'=> 200, 
-                'message'=>"Catégorie supprimé avec succès"
-            ], 200);
-        }
-        else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Catégorie non supprimé"
-            ], 404);
-        }
+        $categorie->delete();
+        return back()->with('success', 'Catégorie supprimé avec succès');
+        // if($categorie){
+        //     $categorie->delete();
+        //     return response()->json([
+        //         'status'=> 200, 
+        //         'message'=>"Catégorie supprimé avec succès"
+        //     ], 200);
+        // }
+        // else{
+        //     return response()->json([
+        //         'status'=> 404, 
+        //         'message'=>"Catégorie non supprimé"
+        //     ], 404);
+        // }
     }
 }

@@ -36,9 +36,6 @@ Route::get('villes/{id}/edit', [VilleController::class, 'edit']);
 Route::put('villes/{id}/edit', [VilleController::class, 'update']);
 Route::delete('villes/{id}/delete', [VilleController::class, 'destroy']);
 
-Route::get('evenements', [EvenementsController::class, 'index']);
-Route::get('categories', [EvenementsController::class, 'indexCa']);
-Route::get('villes', [EvenementsController::class, 'indexVi']);
 Route::post('evenements', [EvenementsController::class, 'store']);
 Route::get('evenements/{id}', [EvenementsController::class, 'show']);
 Route::get('evenements/{id}/edit', [EvenementsController::class, 'edit']);
