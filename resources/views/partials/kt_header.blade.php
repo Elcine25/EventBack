@@ -16,7 +16,7 @@
                 </span>
             </div>
             <a href="#" class="d-flex align-items-center">
-                <img alt="Logo" src="{{asset('/assets/media/logos/EventPlus.png')}}" class="h-40px" />
+                <img alt="Logo" src="{{asset('/assets/media/logos/EventPluse.png')}}" class="h-40px" />
             </a>
         </div>
     </div>

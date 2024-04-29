@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('title')
-    Catégories
+    Villes
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item text-muted">
         <a href="/" class="text-muted">Acceuil</a>
     </li>
-    <li class="breadcrumb-item text-dark">Liste des Catégories</li>
+    <li class="breadcrumb-item text-dark">Liste des Villes</li>
 @endsection
 @section('css')
 @endsection
@@ -19,13 +19,13 @@
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
-                        <span class="me-2 text-gray-800 mt-2 fs-6 text-uppercase">Liste des Catégories</span>
-                        <span class="text-muted mt-1 fs-7">Au total {{$categories->count()}} catégorie(s)</span>
+                        <span class="me-2 text-gray-800 mt-2 fs-6 text-uppercase">Liste des Villes</span>
+                        <span class="text-muted mt-1 fs-7">Au total {{$villes->count()}} ville(s)</span>
                     </h3>
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
                         <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-                            title="Cliquez pour ajouter une Catégorie">
-                            <a href="{{ route('categorie-create') }}" class="btn fs-7 p-2 rounded-0 btn-primary">
+                            title="Cliquez pour ajouter une Ville">
+                            <a href="{{ route('ville-create') }}" class="btn fs-7 p-2 rounded-0 btn-primary">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                 <span class="svg-icon svg-icon-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -36,7 +36,7 @@
                                             fill="black" />
                                     </svg>
                                 </span>
-                                <!--end::Svg Icon-->Nouvelle Catégorie
+                                <!--end::Svg Icon-->Nouvelle Ville
                             </a>
                         </div>
                     </div>
@@ -64,9 +64,6 @@
                                     <th>
                                         Nom
                                     </th>
-                                    <th>
-                                        Description
-                                    </th>
                                     <th class="min-w-100px text-end">
                                         Actions
                                     </th>
@@ -75,16 +72,15 @@
                             <!--end::Table head-->
                             <!--begin::Table body-->
                             <tbody>
-                                @foreach ($categories as $item)
+                                @foreach ($villes as $item)
                                     <tr class="border border-gray-200">
                                         <td class="min-w-5px text-start">
                                             {{ $loop->index + 1 }}
                                         </td>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{ $item->description }}</td>
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
-                                                <a href="{{route('categorie-edit', $item->id)}}" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                <a href="{{route('ville-edit', $item->id)}}" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                                     data-bs-trigger="hover" title="Modifier la Catégorie"
                                                     data-bs-custom-class="tooltip-dark"
                                                     class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">
@@ -102,12 +98,12 @@
                                                     </span>
                                                 </a>
                                                 <form id="deleteForm{{ $item->id }}" method="POST"
-                                                    action="{{ route('categorie-delete', $item->id) }}">
+                                                    action="{{ route('ville-delete', $item->id) }}">
                                                     @csrf
                                                     @method('DELETE')
                                                     <a type="button" onclick="confirmDelete('{{ $item->id }}')"
                                                         data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                        data-bs-trigger="hover" title="Supprimer la Catégorie"
+                                                        data-bs-trigger="hover" title="Supprimer la Ville"
                                                         data-bs-custom-class="tooltip-dark"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
@@ -269,7 +265,7 @@
     <script>
         function confirmDelete(formId) {
             Swal.fire({
-                text: "Êtes-vous sûr de vouloir supprimer cette entreprise ?",
+                text: "Êtes-vous sûr de vouloir supprimer cette ville ?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#dc3545",

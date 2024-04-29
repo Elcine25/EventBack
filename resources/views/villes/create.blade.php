@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('title')
-Enregistrer un catégorie
+Enregistrer une ville
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item text-muted">
     <a href="/" class="text-muted">Acceuil</a>
 </li>
 <li class="breadcrumb-item text-muted">
-    <a href="{{route('categorie-index')}}" class="text-muted">Liste des catégories</a>
+    <a href="{{route('categorie-index')}}" class="text-muted">Liste des villes</a>
 </li>
-<li class="breadcrumb-item text-dark">Nouvelle catégorie</li>
+<li class="breadcrumb-item text-dark">Nouvelle ville</li>
 @endsection
 @section("css")
 
@@ -29,7 +29,7 @@ Enregistrer un catégorie
                     >
                         <span
                             class="card-label fw-bolder fs-3 mb-1"
-                            >Nouvelle catégorie</span
+                            >Nouvelle ville</span
                         >
 
                     </h3>
@@ -38,14 +38,14 @@ Enregistrer un catégorie
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         data-bs-trigger="hover"
-                        title="Cliquez pour ajouter une catégorie"
+                        title="Cliquez pour ajouter une PME"
                     > </div>
                 </div>
                 <!--end::Header-->
                 <!--begin::Body-->
                 <div class="card-body py-3">
                     <!--begin::form container-->
-                    <form class="form" method="POST" action="{{route('categorie-store')}}" >
+                    <form class="form" method="POST" action="{{route('ville-store')}}" >
                         @csrf
                         <div>
                             <div class="row w-100">
@@ -62,7 +62,7 @@ Enregistrer un catégorie
                                         type="text"
                                         class="form-control form-control-sm  @error('name') is-invalid @enderror"
                                         name="name"
-                                        placeholder="Nom de la catégorie"
+                                        placeholder="Nom de la ville"
                                     />
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -70,27 +70,7 @@ Enregistrer un catégorie
                                         </span>
                                     @enderror
                                     <!--end::Label-->
-                                </div>
-
-                                <div class="form-group col-12 mb-5">
-                                    <!--begin::Label-->
-                                    <label
-                                        class="d-flex align-items-center fs-5 mb-2"
-                                    >
-                                        <span class="required"
-                                            >Description</span
-                                        >
-                                    </label>
-                                    <!--end::Label-->
-                                    <!--begin::Input-->
-                                    <textarea   class="form-control @error('description') is-invalid @enderror form-control-sm " name="description" id="" cols="30" rows="10"></textarea>
-                                    @error('description')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                    <!--end::Input-->
-                                </div>
+                                    </div>
                                
                             </div>
                             <div class="d-flex justify-content-between item-align-center">

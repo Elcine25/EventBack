@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Enregistrer un catégorie
+Modifier une catégorie
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item text-muted">
@@ -10,7 +10,7 @@ Enregistrer un catégorie
 <li class="breadcrumb-item text-muted">
     <a href="{{route('categorie-index')}}" class="text-muted">Liste des catégories</a>
 </li>
-<li class="breadcrumb-item text-dark">Nouvelle catégorie</li>
+<li class="breadcrumb-item text-dark">{{$categorie->name}}</li>
 @endsection
 @section("css")
 
@@ -38,14 +38,15 @@ Enregistrer un catégorie
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         data-bs-trigger="hover"
-                        title="Cliquez pour ajouter une catégorie"
+                        title="Cliquez pour ajouterune PME"
                     > </div>
                 </div>
                 <!--end::Header-->
                 <!--begin::Body-->
                 <div class="card-body py-3">
                     <!--begin::form container-->
-                    <form class="form" method="POST" action="{{route('categorie-store')}}" >
+                    <form class="form" method="POST" action="{{route('categorie-update', $categorie->id)}}" >
+                        @method('PUT')
                         @csrf
                         <div>
                             <div class="row w-100">
@@ -62,7 +63,8 @@ Enregistrer un catégorie
                                         type="text"
                                         class="form-control form-control-sm  @error('name') is-invalid @enderror"
                                         name="name"
-                                        placeholder="Nom de la catégorie"
+                                        placeholder="Nom de l'événement"
+                                        value="{{$categorie->name}}"
                                     />
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -83,7 +85,7 @@ Enregistrer un catégorie
                                     </label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
-                                    <textarea   class="form-control @error('description') is-invalid @enderror form-control-sm " name="description" id="" cols="30" rows="10"></textarea>
+                                    <textarea   class="form-control @error('description') is-invalid @enderror form-control-sm " name="description" id="" cols="30" rows="10">{{$categorie->description}}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}

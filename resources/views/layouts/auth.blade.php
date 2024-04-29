@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-    <title> @yield('title', 'Connexion') | EVENTPULZE</title>
+    <title> @yield('title', 'Connexion') | EVENTPULSE</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="{{ asset('/assets/media/logos/favicon.png') }}" />

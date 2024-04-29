@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title> @yield('title', 'Acceuil') | EVENTPULZE</title>
+    <title> @yield('title', 'Acceuil') | EVENTPULSE</title>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="{{ asset('/assets/media/logos/favicon.png') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">

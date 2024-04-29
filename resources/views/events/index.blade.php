@@ -126,18 +126,19 @@
                                 <tr class="fw-bolder text-white">
                                     <th class="text-start">#</th>
                                     <th>
-                                        nom
+                                        Nom
                                     </th>
                                     <th>
-                                        date
+                                        Date
                                     </th>
                                     <th>
-                                        lieu
+                                        Lieu
                                     </th>
                                     <th>
-                                        heure
+                                        Heure
                                     </th>
-                                    <th>villes</th>
+                                    <th>Ville</th>
+                                    <th>Catégorie</th>
                                     <th class="min-w-100px text-end">
                                         Actions
                                     </th>
@@ -151,11 +152,12 @@
                                         <td>
                                             {{ $loop->index + 1 }}
                                         </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ $item->nom }}</td>
+                                        <td>{{ $item->date }}</td>
+                                        <td>{{ $item->lieu }}</td>
+                                        <td>{{ $item->heure }}</td>
+                                        <td>{{ $item->ville }}</td>
+                                        <td>{{ $item->ville }}</td>
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
                                                     <a href="#"
@@ -172,7 +174,7 @@
                                                         <!--end::Svg Icon-->
                                                     </a>
                                                     <a href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover"
-                                                        title="Détails de la Evénement" data-bs-custom-class="tooltip-dark"
+                                                        title="Détails de l'événement" data-bs-custom-class="tooltip-dark"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                                         <span class="svg-icon svg-icon-3">
@@ -189,7 +191,7 @@
                                                         <!--end::Svg Icon-->
                                                     </a>
                                                     <a href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover"
-                                                        title="Modifier la Evénement" data-bs-custom-class="tooltip-dark"
+                                                        title="Modifier l'événement" data-bs-custom-class="tooltip-dark"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">
                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                         <span class="svg-icon svg-icon-3">
@@ -206,11 +208,11 @@
                                                     </a>
                                                 @can('sgds_delete-pme')
                                                     <form id="deleteForm{{ $item->id }}" method="POST"
-                                                        action="#">
+                                                        action="{{ route('event-delete', $item->id) }}">
                                                         @csrf
                                                         @method('DELETE')
                                                         <a type="button" onclick="confirmDelete('{{ $item->id }}')" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover"
-                                                            title="Supprimer la Evénement" data-bs-custom-class="tooltip-dark"
+                                                            title="Supprimer l'événement" data-bs-custom-class="tooltip-dark"
                                                             class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn">
                                                             <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                             <span class="svg-icon svg-icon-3">

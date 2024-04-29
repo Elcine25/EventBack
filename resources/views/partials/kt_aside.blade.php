@@ -5,7 +5,7 @@
         @php $currentRoute = \Illuminate\Support\Facades\Route::currentRouteName(); @endphp
         <div class=" d-flex align-items-center justify-content-between mt-4 mb-3">
             <div>
-                <img alt="Logo" src="{{ asset('/assets/media/logos/EventPluse_blanc.png') }}" class="h-30px" />
+                <img alt="Logo" src="{{ asset('/assets/media/logos/EventPluse_blanc.png') }}" class="h-30px m-2" />
                 <span class="mx-3 text-white fw-bold fs-3">EP ADMIN</span>
             </div>
             <div>
@@ -222,7 +222,7 @@
                                         </div>
                                     </div>
                                     <div class="menu-item px-6 mb-1">
-                                        <a class="menu-link" href="#">
+                                        <a class="menu-link" href="{{ route('ville-index') }}">
                                             <span class="menu-icon">
                                                 <span class="svg-icon svg-icon-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"

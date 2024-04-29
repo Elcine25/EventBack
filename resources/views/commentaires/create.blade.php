@@ -38,7 +38,7 @@ Enregistrer un catégorie
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         data-bs-trigger="hover"
-                        title="Cliquez pour ajouter une catégorie"
+                        title="Cliquez pour ajouter une PME"
                     > </div>
                 </div>
                 <!--end::Header-->

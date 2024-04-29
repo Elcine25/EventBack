@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Enregistrer un évenement
+Modifier un évenement
 @endsection
 @section('breadcrumb')
 <li class="breadcrumb-item text-muted">
@@ -45,7 +45,8 @@ Enregistrer un évenement
                 <!--begin::Body-->
                 <div class="card-body py-3">
                     <!--begin::form container-->
-                    <form class="form" method="POST" action="{{route('event-store')}}" >
+                    <form class="form" method="POST" action="{{route('event-update', $evenement->id)}}" >
+                        @method('PUT')
                         @csrf
                         <div>
                             <div class="row w-100">
@@ -63,6 +64,7 @@ Enregistrer un évenement
                                         class="form-control form-control-sm  @error('nom') is-invalid @enderror"
                                         name="nom"
                                         placeholder="Nom de l'événement"
+                                        value="{{$evenement->nom}}"
                                     />
                                     @error('nom')
                                         <span class="invalid-feedback" role="alert">
@@ -85,6 +87,7 @@ Enregistrer un évenement
                                         class="form-control form-control-sm  @error('date') is-invalid @enderror"
                                         name="date"
                                         placeholder="Date de l'événement"
+                                        value="{{$evenement->date}}"
                                     />
                                     @error('date')
                                         <span class="invalid-feedback" role="alert">
@@ -107,6 +110,7 @@ Enregistrer un évenement
                                         class="form-control form-control-sm  @error('heure') is-invalid @enderror"
                                         name="heure"
                                         placeholder="Heure de l'événement"
+                                        value="{{$evenement->heure}}"
                                     />
                                     @error('heure')
                                         <span class="invalid-feedback" role="alert">
@@ -133,6 +137,7 @@ Enregistrer un évenement
                                         class="form-control @error('lieu') is-invalid @enderror form-control-sm "
                                         name="lieu"
                                         placeholder="Adresse de l'événement"
+                                        value="{{$evenement->lieu}}"
                                     />
                                     @error('lieu')
                                         <span class="invalid-feedback" role="alert">
@@ -184,7 +189,7 @@ Enregistrer un évenement
                                         class="form-select form-select-sm @error('villes_id') is-invalid @enderror"
                                         aria-label="Select example" aria-placeholder="sélectionner une catégorie">
                                         <option>sélectionner une ville</option>
-                                        @foreach ($villes as $item)
+                                        @foreach ($categories as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
                                     </select>
