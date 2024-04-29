@@ -15,10 +15,10 @@ class EvenementsController extends Controller
     public function index()
     {
         //$user = Auth::user();
-        $evenements = Evenements::all();
-        $categories = Categorie::all();
-        $villes = Ville::all();
-        return view('events.index', compact('evenements', 'villes'));
+        $evenements = Evenements::with('villes', 'categories')->get();
+        // $categories = Categorie::all();
+        // $villes = Ville::all();
+        return view('events.index', compact('evenements'));
         
     }
 
@@ -42,7 +42,6 @@ class EvenementsController extends Controller
         'heure'=>'required|date_format:H:i',
         'categories_id'=>'required|max:300',
     ]);
-    //dd($request->all());
     $validator = $request->all();
     $evenement = Evenements::create($validator);
     return redirect()->route('event-index')->with('success', 'Evenement ajouté avec succès');

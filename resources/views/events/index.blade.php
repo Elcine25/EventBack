@@ -20,7 +20,7 @@
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
                         <span class="me-2 text-gray-800 mt-2 fs-6 text-uppercase">Liste des Evénements</span>
-                        <span class="text-muted mt-1 fs-7">Au total 0 pme(s)</span>
+                        <span class="text-muted mt-1 fs-7">Au total {{$evenements->count()}} évenement(s)</span>
                     </h3>
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
                             <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
@@ -156,23 +156,10 @@
                                         <td>{{ $item->date }}</td>
                                         <td>{{ $item->lieu }}</td>
                                         <td>{{ $item->heure }}</td>
-                                        <td>{{ $item->ville }}</td>
-                                        <td>{{ $item->ville }}</td>
+                                        <td>{{ $item->villes->name }}</td>
+                                        <td>{{ $item->categories->name }}</td>
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
-                                                    <a href="#"
-                                                        class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover"
-                                                        title="Moyens roulants" data-bs-custom-class="tooltip-dark">
-                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
-                                                        <span class="svg-icon svg-icon-3">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                                viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                                <path  fill="black"
-                                                                    d="M368.6 96l76.8 96H288V96h80.6zM224 80V192H64c-17.7 0-32 14.3-32 32v64c-17.7 0-32 14.3-32 32s14.3 32 32 32H65.1c-.7 5.2-1.1 10.6-1.1 16c0 61.9 50.1 112 112 112s112-50.1 112-112c0-5.4-.4-10.8-1.1-16h66.3c-.7 5.2-1.1 10.6-1.1 16c0 61.9 50.1 112 112 112s112-50.1 112-112c0-5.4-.4-10.8-1.1-16H608c17.7 0 32-14.3 32-32s-14.3-32-32-32V224c0-17.7-14.3-32-32-32H527.4L418.6 56c-12.1-15.2-30.5-24-50-24H272c-26.5 0-48 21.5-48 48zm0 288a48 48 0 1 1 -96 0 48 48 0 1 1 96 0zm288 0a48 48 0 1 1 -96 0 48 48 0 1 1 96 0z" />
-                                                            </svg>
-                                                        </span>
-                                                        <!--end::Svg Icon-->
-                                                    </a>
                                                     <a href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover"
                                                         title="Détails de l'événement" data-bs-custom-class="tooltip-dark"
                                                         class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">

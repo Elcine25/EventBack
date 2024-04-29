@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Ville;
+use App\Models\Categorie;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Evenements extends Model
 {
@@ -18,4 +20,12 @@ class Evenements extends Model
         'categories_id',
         'villes_id'
     ];
+
+    public function villes(){
+        return $this->belongsTo(Ville::class);
+    }
+
+    public function categories(){
+        return $this->belongsTo(Categorie::class);
+    }
 }

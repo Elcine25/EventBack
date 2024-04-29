@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Evenements;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Categorie extends Model
 {
@@ -13,4 +14,8 @@ class Categorie extends Model
         'name',
         'description'
     ];
+
+    public function evenements(){
+        return $this->hasMany(Evenements::class);
+    }
 }
