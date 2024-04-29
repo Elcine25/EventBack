@@ -16,17 +16,18 @@ class EvenementsController extends Controller
     {
         //$user = Auth::user();
         $evenements = Evenements::all();
-        if($evenements->count()>0){
-        return response()->json([
-            'status'=>200, 
-            'evenements'=>$evenements
-        ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Aucun raccord"
-            ], 404);
-        }
+        return view('events.index', compact('evenements'));
+        // if($evenements->count()>0){
+        // return response()->json([
+        //     'status'=>200, 
+        //     'evenements'=>$evenements
+        // ], 200);
+        // }else{
+        //     return response()->json([
+        //         'status'=> 404, 
+        //         'message'=>"Aucun raccord"
+        //     ], 404);
+        // }
     }
 
     public function indexCa()
@@ -67,7 +68,8 @@ class EvenementsController extends Controller
 
     public function create()
     {
-        //
+        $categories = Categorie::all();
+        return view('events.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -81,6 +83,8 @@ class EvenementsController extends Controller
         'heure'=>'required|date_format:H:i',
         'categories_id'=>'required|max:300',
     ]);
+
+    dd($validator);
     if($validator->fails()){
         return response()->json([
             'status' => 422,

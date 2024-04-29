@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('commentaires', function (Blueprint $table) {
             $table->id();
             $table->string('contenu');
-            $table->foreignId('evenements_id')->constrained();
+            $table->unsignedBigInteger('evenements_id');
+            $table->foreign('evenements_id')->references('id')->on('evenements');
             $table->timestamps();
         });
     }
@@ -24,7 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        $chema::table("commentaires", function(Blueprint $table) {
+        Schema::table("commentaires", function(Blueprint $table) {
             $table->dropConstrainedForeignId("evenements_Id");
         });
         Schema::dropIfExists('commentaires');
