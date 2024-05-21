@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEvenementsRequest;
 use App\Http\Requests\UpdateEvenementsRequest;
-use App\Models\Evenements;
+use App\Models\Evenements;  
+
 use App\Models\Categorie;
 use App\Models\Ville;
 
@@ -16,9 +17,18 @@ class EvenementsController extends Controller
     {
         //$user = Auth::user();
         $evenements = Evenements::with('villes', 'categories')->get();
-        // $categories = Categorie::all();
-        // $villes = Ville::all();
-        return view('events.index', compact('evenements'));
+       return view('events.index', compact('evenements'));
+       /*if($evenements->count()>0){
+         return response()->json([
+             'status'=>200, 
+             'evenements'=>$evenements
+         ], 200);
+         }else{
+             return response()->json([
+                 'status'=> 404, 
+                 'message'=>"Aucun raccord"
+             ], 404);
+         }*/
         
     }
 
@@ -45,6 +55,7 @@ class EvenementsController extends Controller
     $validator = $request->all();
     $evenement = Evenements::create($validator);
     return redirect()->route('event-index')->with('success', 'Evenement ajouté avec succès');
+    
 
     
     }
@@ -67,9 +78,10 @@ class EvenementsController extends Controller
 
     public function edit( $id)
     {
-        
+        $villes = Ville::all();
+        $categories = Categorie::all();
         $evenements= Evenements::find($id);
-        return view('events.edit', compact('evenements'));
+        return view('events.edit', compact('evenements', 'villes', 'categories'));
        
     }
 
@@ -88,6 +100,7 @@ class EvenementsController extends Controller
     $evenement = Evenements::find($id);
     $evenement->update($data);
     return redirect()->route('event-index')->with('success', 'Événement modifier avec succès');
+
 
 
 }

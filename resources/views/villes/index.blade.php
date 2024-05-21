@@ -81,7 +81,7 @@
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
                                                 <a href="{{route('ville-edit', $item->id)}}" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                    data-bs-trigger="hover" title="Modifier la Catégorie"
+                                                    data-bs-trigger="hover" title="Modifier la Ville"
                                                     data-bs-custom-class="tooltip-dark"
                                                     class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">
                                                     <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->

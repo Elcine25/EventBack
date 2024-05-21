@@ -39987,7 +39987,7 @@ code:not([class*=language-]) {
 .form-control[readonly] {
   background-color: #ffffff;
 }
-.form-control.{
+.form-control{
   background-color: #F5F8FA;
   border-color: #F5F8FA;
   color: #5E6278;

@@ -45,7 +45,7 @@ Modifier un évenement
                 <!--begin::Body-->
                 <div class="card-body py-3">
                     <!--begin::form container-->
-                    <form class="form" method="POST" action="{{route('event-update', $evenement->id)}}" >
+                    <form class="form" method="POST" action="{{route('event-update', $evenements->id)}}" >
                         @method('PUT')
                         @csrf
                         <div>
@@ -64,7 +64,7 @@ Modifier un évenement
                                         class="form-control form-control-sm  @error('nom') is-invalid @enderror"
                                         name="nom"
                                         placeholder="Nom de l'événement"
-                                        value="{{$evenement->nom}}"
+                                        value="{{$evenements->nom}}"
                                     />
                                     @error('nom')
                                         <span class="invalid-feedback" role="alert">
@@ -87,7 +87,7 @@ Modifier un évenement
                                         class="form-control form-control-sm  @error('date') is-invalid @enderror"
                                         name="date"
                                         placeholder="Date de l'événement"
-                                        value="{{$evenement->date}}"
+                                        value="{{$evenements->date}}"
                                     />
                                     @error('date')
                                         <span class="invalid-feedback" role="alert">
@@ -110,7 +110,7 @@ Modifier un évenement
                                         class="form-control form-control-sm  @error('heure') is-invalid @enderror"
                                         name="heure"
                                         placeholder="Heure de l'événement"
-                                        value="{{$evenement->heure}}"
+                                        value="{{$evenements->heure}}"
                                     />
                                     @error('heure')
                                         <span class="invalid-feedback" role="alert">
@@ -137,7 +137,7 @@ Modifier un évenement
                                         class="form-control @error('lieu') is-invalid @enderror form-control-sm "
                                         name="lieu"
                                         placeholder="Adresse de l'événement"
-                                        value="{{$evenement->lieu}}"
+                                        value="{{$evenements->lieu}}"
                                     />
                                     @error('lieu')
                                         <span class="invalid-feedback" role="alert">
@@ -163,7 +163,7 @@ Modifier un évenement
                                         aria-label="Select example" aria-placeholder="sélectionner une catégorie">
                                         <option>Sélectionner une catégorie</option>
                                         @foreach ($categories as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                <option value="{{ $item->id }}" {{$evenements->categories_id==$item->id ? 'selected':''}}>{{ $item->name }}</option>
                                             @endforeach
                                     </select>
 
@@ -189,8 +189,8 @@ Modifier un évenement
                                         class="form-select form-select-sm @error('villes_id') is-invalid @enderror"
                                         aria-label="Select example" aria-placeholder="sélectionner une catégorie">
                                         <option>sélectionner une ville</option>
-                                        @foreach ($categories as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @foreach ($villes as $item)
+                                                <option value="{{ $item->id }}"{{$evenements->villes_id==$item->id ? 'selected':''}}>{{ $item->name }}</option>
                                             @endforeach
                                     </select>
 
@@ -213,7 +213,8 @@ Modifier un évenement
                                     </label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
-                                    <textarea   class="form-control @error('description') is-invalid @enderror form-control-sm " name="description" id="" cols="30" rows="10"></textarea>
+                                    <textarea   class="form-control @error('description') is-invalid @enderror form-control-sm " 
+                                    value="" name="description" id="" cols="30" rows="10">{{$evenements->description}}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}

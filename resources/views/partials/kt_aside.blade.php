@@ -39,7 +39,7 @@
                                 <!--begin::Username-->
                                 <div class="d-flex flex-column">
                                     <div class="fw-bolder d-flex align-items-center fs-5">
-                                        {{ auth()->user()->name }}
+                                        {{ auth()->user()->name[0] }}
                                     </div>
                                     <a href="#"
                                         class="text-muted text-hover-primary fs-7">{{ auth()->user()->email }}</a>
