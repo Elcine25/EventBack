@@ -12,6 +12,7 @@ Enregistrer un évenement
 </li>
 <li class="breadcrumb-item text-dark">Nouvel évenement</li>
 @endsection
+
 @section("css")
 
 @endsection
@@ -22,6 +23,26 @@ Enregistrer un évenement
             <div
                 class="card card-xl-stretch mb-5 mb-xl-8"
             >
+            @if (session('success'))
+                        <div class="alert alert-success d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('success') }}</span>
+                            </div>
+                        </div>
+
+                            
+                        @elseif(session('error'))
+                        <div class="alert alert-danger d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('error') }}</span>
+                            </div>
+                        </div>
+                            
+                    @endif
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3
@@ -45,10 +66,15 @@ Enregistrer un évenement
                 <!--begin::Body-->
                 <div class="card-body py-3">
                     <!--begin::form container-->
-                    <form class="form" method="POST" action="{{route('event-store')}}" >
+                    <form class="form" method="POST" action="{{route('event-store')}}" enctype="multipart/form-data" >
                         @csrf
                         <div>
                             <div class="row w-100">
+                                <div class="imag  mb-3">
+                                    <label for="file" class="file border @error('fichier') text-danger @enderror m-2 end">Importer l'affiche</label>
+                                    <input type="file" id="image" name="fichier" required >
+                                    
+                                </div>
                                 <div class="form-group col-6 mb-5">
                                     <!--begin::Label-->
                                     <label
@@ -62,7 +88,8 @@ Enregistrer un évenement
                                         type="text"
                                         class="form-control form-control-sm  @error('nom') is-invalid @enderror"
                                         name="nom"
-                                        placeholder="Nom de l'événement"
+                                        id="nom"
+                                        placeholder="Nom de l'événement" required
                                     />
                                     @error('nom')
                                         <span class="invalid-feedback" role="alert">
@@ -82,9 +109,10 @@ Enregistrer un évenement
                                     </label>
                                     <input
                                         type="date"
-                                        class="form-control form-control-sm  @error('date') is-invalid @enderror"
+                                        class="form-control form-control-sm @error('date') text-danger @enderror"
                                         name="date"
-                                        placeholder="Date de l'événement"
+                                        id="date"
+                                        placeholder="Date de l'événement" required
                                     />
                                     @error('date')
                                         <span class="invalid-feedback" role="alert">
@@ -104,9 +132,10 @@ Enregistrer un évenement
                                     </label>
                                     <input
                                         type="time"
-                                        class="form-control form-control-sm  @error('heure') is-invalid @enderror"
+                                        class="form-control form-control-sm  @error('heure') text-danger @enderror"
                                         name="heure"
-                                        placeholder="Heure de l'événement"
+                                        id="heure"
+                                        placeholder="Heure de l'événement" required
                                     />
                                     @error('heure')
                                         <span class="invalid-feedback" role="alert">
@@ -132,7 +161,8 @@ Enregistrer un évenement
                                         type="text"
                                         class="form-control @error('lieu') is-invalid @enderror form-control-sm "
                                         name="lieu"
-                                        placeholder="Adresse de l'événement"
+                                        id="lieu"
+                                        placeholder="Adresse de l'événement" required
                                     />
                                     @error('lieu')
                                         <span class="invalid-feedback" role="alert">
@@ -208,7 +238,7 @@ Enregistrer un évenement
                                     </label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
-                                    <textarea   class="form-control @error('description') is-invalid @enderror form-control-sm " name="description" id="" cols="30" rows="10"></textarea>
+                                    <textarea   class="form-control @error('description') is-invalid @enderror form-control-sm " required name="description" id="description" cols="30" rows="10"></textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
@@ -221,6 +251,7 @@ Enregistrer un évenement
                             <div class="d-flex justify-content-between item-align-center">
                                 <button
                                 type="submit"
+                                id="boutton"
                                 class="btn btn-sm btn-primary"
                                 >
                                     Enregistrer
@@ -235,8 +266,38 @@ Enregistrer un évenement
             <!--end::Tables Widget 3-->
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', funtion() {
+            const lieu = document.getElementById('lieu');
+            const nom = document.getElementById('nom');
+            const description = document.getElementById('description');
+            const heure = document.getElementById('heure');
+            const date = document.getElementById('date');
+            const boutton = document.getElementById('boutton');
+    
+            function checkTitreExists(){
+                const nameValue= nom.value.trim();
+                const lieuValue= lieu.value.trim();
+                const descriptionValue= description.value.trim();
+                const heureValue= heure.value.trim();
+                const dateValue= date.value.trim();
+    
+                if(nameValue===''){
+                    boutton.disabled=true;
+                }
+                else{
+                    boutton.disabled=false;
+                }
+            }
+            checkTitreExists();
+    
+                nom.addEventListener('input',checkTitreExists);
+        });
+    </script>
+    
     <!-- Modal create -->
 @endsection
 @section('script')
+
 
 @endsection

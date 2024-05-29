@@ -42,13 +42,42 @@ Enregistrer un catégorie
                     > </div>
                 </div>
                 <!--end::Header-->
+                @if (session('success'))
+                        <div class="alert alert-success d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('success') }}</span>
+                            </div>
+                        </div>
+
+                            
+                        @elseif(session('error'))
+                        <div class="alert alert-danger d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('error') }}</span>
+                            </div>
+                        </div>
+                            
+                @endif
                 <!--begin::Body-->
                 <div class="card-body py-3">
                     <!--begin::form container-->
-                    <form class="form" method="POST" action="{{route('categorie-store')}}" >
+                        <form class="form" method="POST" action="{{ route('categorie-store') }}" enctype="multipart/form-data">
                         @csrf
                         <div>
                             <div class="row w-100">
+                                <div class="imag  mb-3">
+                                    <label for="file" class="file border @error('fichier') text-danger @enderror m-2 end">Importer l'icône</label>
+                                    <input type="file" id="image" name="fichier" required >
+                                    @error('fichier')
+                                        <span class="invalid-feedback" role="alert">
+                                            Importez un fichier de type image.
+                                        </span>
+                                    @enderror
+                                </div>
                                 <div class="form-group col-12 mb-5">
                                     <!--begin::Label-->
                                     <label
@@ -62,7 +91,7 @@ Enregistrer un catégorie
                                         type="text"
                                         class="form-control form-control-sm  @error('name') is-invalid @enderror"
                                         name="name"
-                                        placeholder="Nom de la catégorie"
+                                        placeholder="Nom de la catégorie" required
                                     />
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -83,7 +112,7 @@ Enregistrer un catégorie
                                     </label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
-                                    <textarea   class="form-control @error('description') is-invalid @enderror form-control-sm " name="description" id="" cols="30" rows="10"></textarea>
+                                    <textarea   class="form-control @error('description') is-invalid @enderror form-control-sm " required name="description" id="" cols="30" rows="10"></textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
@@ -96,6 +125,7 @@ Enregistrer un catégorie
                             <div class="d-flex justify-content-between item-align-center">
                                 <button
                                 type="submit"
+                                :disabled="!name || !description"
                                 class="btn btn-sm btn-primary"
                                 >
                                     Enregistrer

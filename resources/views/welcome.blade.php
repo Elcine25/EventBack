@@ -65,7 +65,7 @@
 
                                     <!--begin::Info-->
                                     <div class="text-white">
-                                        <span class="fw-semibold d-block fs-8 opacity-75">+20</span>
+                                        <span class="fw-semibold d-block fs-8 opacity-75"></span>
                                         <span class="fw-bold fs-7">Evénements</span>
                                     </div>
                                     <!--end::Info-->
@@ -96,7 +96,7 @@
 
                                     <!--begin::Info-->
                                     <div class="text-white">
-                                        <span class="fw-semibold opacity-75 d-block fs-8">+30</span>
+                                        <span class="fw-semibold opacity-75 d-block fs-8"></span>
                                         <span class="fw-bold fs-7">Villes</span>
                                     </div>
                                     <!--end::Info-->
@@ -134,8 +134,6 @@
                     <!--begin::Title-->
                     <h3 class="card-title align-items-start flex-column">
                         <span class="card-label fw-bold text-gray-800">Liste des événements</span>
-
-                        <span class="text-gray-500 mt-1 fw-semibold fs-6">Updated 37 minutes ago</span>
                     </h3>
                     <!--end::Title-->
 
@@ -143,33 +141,64 @@
                 <!--end::Header-->
 
                 <!--begin::Body-->
-                <div class="card-body pt-6">
+                <div class="card-body py-3">
+                    @if (session('primary'))
+                        <div class="alert alert-primary d-flex align-items-center p-5">
+                            <!--begin::Icon-->
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <!--end::Icon-->
+
+                            <!--begin::Wrapper-->
+                            <div class="d-flex flex-column">
+                                <!--begin::Title-->
+
+                                <!--end::Title-->
+
+                                <!--begin::Content-->
+                                <span>{{ session('primary') }}</span>
+                                <!--end::Content-->
+                            </div>
+                            <!--end::Wrapper-->
+                        </div>
+                    @endif
                     <!--begin::Table container-->
                     <div class="table-responsive">
                         <!--begin::Table-->
-                        <table class="table table-bordered table-sm table-hover">
+                        <table id="pme_table" class="table table-bordered table-sm table-hover">
                             <!--begin::Table head-->
                             <thead class="bg-primary">
-                                <tr class="fs-7 fw-bold text-white border-bottom-0">
-                                    <th class="p-0 pb-3 min-w-175px text-start">Nom</th>
-                                    <th class="p-0 pb-3 min-w-100px text-end">Date</th>
-                                    <th class="p-0 pb-3 min-w-100px text-end">Lieu</th>
-                                    <th class="p-0 pb-3 min-w-175px text-end pe-12">Heure</th>
-                                    <th class="p-0 pb-3 w-125px text-end pe-7">Ville</th>
-                                    <th class="p-0 pb-3 w-50px text-end">Catégorie</th>
+                                <tr class="fw-bolder text-white ">
+                                    <th class="text-start ms-4">#</th>
+                                    <th>
+                                        Nom
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Lieu
+                                    </th>
+                                    <th>
+                                        Heure
+                                    </th>
+                                    <th>Ville</th>
+                                    <th>Catégorie</th>
+                                    <th class="min-w-100px text-end">
+                                        Actions
+                                    </th>
                                 </tr>
                             </thead>
                             <!--end::Table head-->
-
                             <!--begin::Table body-->
                             <tbody>
-
-                               
+                                <!---->
                             </tbody>
                             <!--end::Table body-->
                         </table>
+                        <!--end::Table-->
                     </div>
-                    <!--end::Table-->
+                    <!--end::Table container-->
                 </div>
                 <!--end: Card Body-->
             </div>
@@ -301,7 +330,7 @@
     <script>
         function confirmDelete(formId) {
             Swal.fire({
-                text: "Êtes-vous sûr de vouloir supprimer cette entreprise ?",
+                text: "Êtes-vous sûr de vouloir supprimer cet événement ?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#dc3545",

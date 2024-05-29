@@ -17,6 +17,7 @@ class Evenements extends Model
         'description',
         'lieu',
         'heure',
+        'fichier',
         'categories_id',
         'villes_id'
     ];

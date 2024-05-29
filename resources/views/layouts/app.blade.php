@@ -12,7 +12,7 @@
     <link href="{{ asset('/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
         type="text/css" />
-    <link rel="stylesheet" href="{{ asset('/assets/css/leaflet.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/style.bundle.css') }}" />
     <style>
         .iconBtn {
             padding: 1% !important;

@@ -15,6 +15,7 @@ Modifier un évenement
 @section("css")
 
 @endsection
+
 @section('content')
     <div class="row gy-5 g-xl-8">
         <div class="col-xl-12">
@@ -29,7 +30,7 @@ Modifier un évenement
                     >
                         <span
                             class="card-label fw-bolder fs-3 mb-1"
-                            >Nouvel évenement</span
+                            >Modifier évenement</span
                         >
 
                     </h3>
@@ -42,14 +43,43 @@ Modifier un évenement
                     > </div>
                 </div>
                 <!--end::Header-->
+                @if (session('success'))
+                        <div class="alert alert-success d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('success') }}</span>
+                            </div>
+                        </div>
+
+                            
+                        @elseif(session('error'))
+                        <div class="alert alert-danger d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('error') }}</span>
+                            </div>
+                        </div>
+                            
+                @endif
                 <!--begin::Body-->
                 <div class="card-body py-3">
                     <!--begin::form container-->
-                    <form class="form" method="POST" action="{{route('event-update', $evenements->id)}}" >
+                    <form class="form" method="POST" action="{{route('event-update', $evenements->id)}}" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div>
                             <div class="row w-100">
+                                <div class="imag  mb-3">
+                                    <label for="file" class="file border @error('fichier') text-danger @enderror m-2 end">Importer l'affiche</label>
+                                    <input type="file" id="image" name="fichier" required >
+                                    @error('fichier')
+                                        <span class="invalid-feedback" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
                                 <div class="form-group col-6 mb-5">
                                     <!--begin::Label-->
                                     <label
@@ -107,7 +137,7 @@ Modifier un évenement
                                     </label>
                                     <input
                                         type="time"
-                                        class="form-control form-control-sm  @error('heure') is-invalid @enderror"
+                                        class="form-control form-control-sm  @error('heure') text-danger @enderror"
                                         name="heure"
                                         placeholder="Heure de l'événement"
                                         value="{{$evenements->heure}}"

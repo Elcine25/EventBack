@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->string('nom');
-            $table->string('description');
+            $table->text('description');
             $table->time('heure');
             $table->string('lieu');
+            $table->string('fichier');
             $table->foreignId('villes_id')->references('id')->on('villes')->onDelete('cascade');
             $table->foreignId('categories_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();

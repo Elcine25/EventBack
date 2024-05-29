@@ -45,14 +45,26 @@
                 <!--begin::Body-->
                 <div class="card-body py-3">
                     @if (session('success'))
-                        <div class="alert alert-primary d-flex align-items-center p-5">
+                        <div class="alert alert-success d-flex align-items-center p-5">
                             <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
                                     class="path2"></span></i>
                             <div class="d-flex flex-column">
                                 <span>{{ session('success') }}</span>
                             </div>
                         </div>
+
+                            
+                        @elseif(session('error'))
+                        <div class="alert alert-danger d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('error') }}</span>
+                            </div>
+                        </div>
+                            
                     @endif
+
                     <!--begin::Table container-->
                     <div class="table-responsive">
                         <!--begin::Table-->
@@ -60,9 +72,12 @@
                             <!--begin::Table head-->
                             <thead class="bg-primary">
                                 <tr class="fw-bolder text-white border border-gray-200">
-                                    <th class="min-w-5px text-start">#</th>
+                                    <th class="min-w-5px text-center">#</th>
                                     <th>
                                         Nom
+                                    </th>
+                                    <th>
+                                        Icone
                                     </th>
                                     <th>
                                         Description
@@ -77,10 +92,11 @@
                             <tbody>
                                 @foreach ($categories as $item)
                                     <tr class="border border-gray-200">
-                                        <td class="min-w-5px text-start">
+                                        <td class="min-w-5px text-center">
                                             {{ $loop->index + 1 }}
                                         </td>
                                         <td>{{ $item->name }}</td>
+                                        <td>{{ $item->fichier }}</td>
                                         <td>{{ $item->description }}</td>
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">
@@ -269,7 +285,7 @@
     <script>
         function confirmDelete(formId) {
             Swal.fire({
-                text: "Êtes-vous sûr de vouloir supprimer cette entreprise ?",
+                text: "Êtes-vous sûr de vouloir supprimer cette catégorie ?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#dc3545",

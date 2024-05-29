@@ -12,7 +12,8 @@ class Categorie extends Model
     protected $table='categories';
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'fichier'
     ];
 
     public function evenements(){

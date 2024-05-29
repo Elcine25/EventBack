@@ -29,7 +29,7 @@ Modifier une catégorie
                     >
                         <span
                             class="card-label fw-bolder fs-3 mb-1"
-                            >Nouvelle catégorie</span
+                            >Modifier catégorie</span
                         >
 
                     </h3>
@@ -42,14 +42,43 @@ Modifier une catégorie
                     > </div>
                 </div>
                 <!--end::Header-->
+                @if (session('success'))
+                        <div class="alert alert-success d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('success') }}</span>
+                            </div>
+                        </div>
+
+                            
+                        @elseif(session('error'))
+                        <div class="alert alert-danger d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('error') }}</span>
+                            </div>
+                        </div>
+                            
+                @endif
                 <!--begin::Body-->
                 <div class="card-body py-3">
                     <!--begin::form container-->
-                    <form class="form" method="POST" action="{{route('categorie-update', $categorie->id)}}" >
+                    <form class="form" method="POST" action="{{route('categorie-update', $categorie->id)}}" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div>
                             <div class="row w-100">
+                                <div class="imag  mb-3">
+                                    <label for="file" class="file border @error('fichier') text-danger @enderror m-2 end">Importer l'icône</label>
+                                    <input type="file" id="image" name="fichier" required >
+                                    @error('fichier')
+                                        <span class="invalid-feedback" role="alert">
+                                            Importez un fichier de type image.
+                                        </span>
+                                    @enderror
+                                </div>
                                 <div class="form-group col-12 mb-5">
                                     <!--begin::Label-->
                                     <label

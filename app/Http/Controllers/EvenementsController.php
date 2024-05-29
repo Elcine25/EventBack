@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreEvenementsRequest;
 use App\Http\Requests\UpdateEvenementsRequest;
 use App\Models\Evenements;  
+use Carbon\Carbon;
 
 use App\Models\Categorie;
 use App\Models\Ville;
@@ -42,22 +43,49 @@ class EvenementsController extends Controller
 
     public function store(Request $request)
     {
-        
-    $validator= Validator::make($request->all(), [
+        $dateActuelle = Carbon::now();
+        $heureActuelle = Carbon::now()->format('H:i');
+        $validator= Validator::make($request->all(), [
         'nom'=>'required|string|max:191',
         'description'=>'required|string|max:300',
         'lieu'=>'required|string|max:300',
-        'villes_id'=>'required|max:300',
-        'date'=>'required|date',
-        'heure'=>'required|date_format:H:i',
+        'fichier' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'date'=>[
+            'required',
+            'date',
+            function ($attribute, $value, $fail) use ($dateActuelle) {
+                if (Carbon::parse($value)->lt($dateActuelle)) {
+                    $fail('La date de l\'événement doit être égale ou postérieure à la date actuelle.');
+                }
+            },
+        ],
+        'heure' => [
+            'required',
+            'date_format:H:i',
+            function ($attribute, $value, $fail) use ($heureActuelle) {
+                // Comparer l'heure saisie par l'utilisateur avec l'heure actuelle
+                if ($value < $heureActuelle) {
+                    $fail('L\'heure de l\'événement doit être égale ou postérieure à l\'heure actuelle.');
+                }
+            },
+        ],
         'categories_id'=>'required|max:300',
     ]);
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput()->with('error', 'Il y a une erreur d\'enregistrement.');
+    }
+    if ($request->hasFile('fichier')) {
+        $imagePath = $request->file('fichier')->store('images', 'public');
+        } else {
+        $imagePath = null;
+    }
+    
     $validator = $request->all();
+    $data['image_path'] = $imagePath;
     $evenement = Evenements::create($validator);
     return redirect()->route('event-index')->with('success', 'Evenement ajouté avec succès');
-    
-
-    
     }
 
     public function show( $id)
@@ -87,21 +115,50 @@ class EvenementsController extends Controller
 
     public function update(Request $request, int $id)
 {
-    $validator = Validator::make($request->all(), [
+    
+        $dateActuelle = Carbon::now();
+        $heureActuelle = Carbon::now()->format('H:i');
+        $validator = Validator::make($request->all(), [
         'nom' => 'required|string|max:191',
         'description' => 'required|string|max:300',
         'lieu' => 'required|string|max:300',
+        'fichier' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'villes_id' => 'required|string|max:300',
-        'date' => 'required|date',
-        'heure' => 'required|date_format:H:i',
+        'date'=>[
+            'required',
+            'date',
+            function ($attribute, $value, $fail) use ($dateActuelle) {
+                if (Carbon::parse($value)->lt($dateActuelle)) {
+                    $fail('La date de l\'événement doit être égale ou postérieure à la date actuelle.');
+                }
+            },
+        ],
+        'heure' => [
+            'required',
+            'date_format:H:i',
+            function ($attribute, $value, $fail) use ($heureActuelle) {
+                if ($value < $heureActuelle) {
+                    $fail('L\'heure de l\'événement doit être égale ou postérieure à l\'heure actuelle.');
+                }
+            },
+        ],
         'categories_id' => 'required|string|max:300',
     ]);
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput()->with('error', 'Il y a une erreur d\'enregistrement.');
+    }
+    if ($request->hasFile('fichier')) {
+        $imagePath = $request->file('fichier')->store('images', 'public');
+        } else {
+        $imagePath = null;
+    }
     $data = $request->all();
+    $data['image_path'] = $imagePath;
     $evenement = Evenements::find($id);
     $evenement->update($data);
     return redirect()->route('event-index')->with('success', 'Événement modifier avec succès');
-
-
 
 }
 

@@ -224,7 +224,8 @@
                                         <a class="menu-link" href="{{ route('ville-index') }}">
                                             <span class="menu-icon">
                                                 <!--begin::Svg Icon | path: /var/www/preview.keenthemes.com/keenthemes/seven/docs/core/html/src/media/icons/duotune/maps/map006.svg-->
-                                                <span class="svg-icon svg-icon-muted svg-icon-2"><svg width="24"
+                                                <span class="svg-icon svg-icon-muted svg-icon-2">
+                                                    <svg width="24"
                                                         height="24" viewBox="0 0 24 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
                                                         <path

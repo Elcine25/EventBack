@@ -44,7 +44,8 @@
 
         <!--begin::Actions-->
         <div class="d-flex flex-wrap justify-content-center pb-lg-0">
-            <button type="submit" id="kt_password_reset_submit" class="btn btn-sm btn-primary me-4">
+            <a href="/login" class="btn fs-7 p-2 btn-light-primary fw-bold me-4">Retour</a>
+            <button type="submit" id="kt_password_reset_submit" class="btn btn-sm btn-primary ">
                 <span class="indicator-label">
                     Envoyé
                 </span>
@@ -53,7 +54,7 @@
                 </span>
             </button>
 
-            <a href="/login" class="btn fs-7 p-2 btn-light-primary fw-bold">Se connecter</a>
+            
         </div>
         <!--end::Actions-->
     </form>

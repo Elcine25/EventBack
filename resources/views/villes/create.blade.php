@@ -62,7 +62,7 @@ Enregistrer une ville
                                         type="text"
                                         class="form-control form-control-sm  @error('name') is-invalid @enderror"
                                         name="name"
-                                        placeholder="Nom de la ville"
+                                        placeholder="Nom de la ville" required
                                     />
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -76,6 +76,7 @@ Enregistrer une ville
                             <div class="d-flex justify-content-between item-align-center">
                                 <button
                                 type="submit"
+                                :disabled="!name"
                                 class="btn btn-sm btn-primary"
                                 >
                                     Enregistrer

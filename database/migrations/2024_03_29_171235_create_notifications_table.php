@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('contenu');
+            $table->text('contenu');
             $table->date('datesend');
             $table->foreignId('visiteurs_id')->constrained();
             $table->timestamps();

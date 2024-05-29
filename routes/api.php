@@ -21,6 +21,11 @@ use App\Http\Controllers\EevenementsController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+//Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
+Route::middleware('auth:sanctum')->group(function () {
+Route::post('/logout', [AuthController::class, 'logout']);
+    
+});
 
 Route::get('categories', [CcategorieController::class, 'index']);
 Route::post('categories', [CcategorieController::class, 'store']);
@@ -42,10 +47,10 @@ Route::get('evenements/{id}', [EevenementsController::class, 'show']);
 Route::get('evenements/{id}/edit', [EevenementsController::class, 'edit']);
 Route::put('evenements/{id}/edit', [EevenementsController::class, 'update']);
 Route::delete('evenements/{id}/delete', [EevenementsController::class, 'destroy']);
+Route::get('evenements-counts', [EevenementsController::class, 'getEventCompts']);
 
+//Route::get('/evenements', [EevenementsController::class, 'getFilteredEvents']);
 
-Route::middleware('auth:sanctum')->group(function () {
-});
 
 
 

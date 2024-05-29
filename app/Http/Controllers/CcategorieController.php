@@ -36,7 +36,7 @@ class CcategorieController extends Controller
     {
     $validator= Validator::make($request->all(), [
         'name'=>'required|string|max:191',
-        'description'=>'required|string|max:300',
+        'description'=>'required|text|max:300',
     ]);
     if($validator->fails()){
         return response()->json([
@@ -100,7 +100,7 @@ class CcategorieController extends Controller
     {
         $validator= Validator::make($request->all(), [
             'name'=>'required|string|max:191',
-            'description'=>'required|string|max:300',
+            'description'=>'required|text|max:300',
         ]);
         if($validator->fails()){
             return response()->json([

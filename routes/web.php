@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view("/profile/edit", 'profile.edit');
     Route::view("/profile/password", 'profile.password');
 
+    Route::get('/events', [EvenementsController::class, 'lindex'])->name('event-index');
     Route::get('/events', [EvenementsController::class, 'index'])->name('event-index');
     Route::get('/events/create', [EvenementsController::class, 'create'])->name('event-create');
     Route::get('/events/edit/{id}', [EvenementsController::class, 'edit'])->name('event-edit');

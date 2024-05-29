@@ -9,13 +9,13 @@ use App\Http\Requests\UpdateEvenementsRequest;
 use App\Models\Evenements;
 use App\Models\Categorie;
 use App\Models\Ville;
+use Illuminate\Support\Facades\DB;
 
 class EevenementsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        //$user = Auth::user();
-        $evenements = Evenements::all();
+        $evenements = Evenements::with('villes', 'categories')->get();
         if($evenements->count()>0){
         return response()->json([
             'status'=>200, 
@@ -24,9 +24,9 @@ class EevenementsController extends Controller
         }else{
             return response()->json([
                 'status'=> 404, 
-                'message'=>"Aucun raccord"
+                'message'=>"Aucun événement"
             ], 404);
-        }
+        };
     }
 
     public function create()
@@ -36,21 +36,21 @@ class EevenementsController extends Controller
 
     public function store(Request $request)
     {
-    $validator= Validator::make($request->all(), [
+        $validator= Validator::make($request->all(), [
         'nom'=>'required|string|max:191',
-        'description'=>'required|string|max:300',
+        'description'=>'required|text|max:300',
         'lieu'=>'required|string|max:300',
         'villes_id'=>'required|max:300',
         'date'=>'required|date',
         'heure'=>'required|date_format:H:i',
         'categories_id'=>'required|max:300',
-    ]);
-    if($validator->fails()){
+        ]);
+        if($validator->fails()){
         return response()->json([
             'status' => 422,
             'errors'=> $validator->messages()
         ], 422);
-    }else{
+        }else{
         $evenements= Evenements::create([
             'nom' =>$request->nom,
             'description' =>$request->description,
@@ -93,69 +93,14 @@ class EevenementsController extends Controller
 
     public function edit( $id)
     {
-        
-        $evenements= Evenements::find($id);
-        if($evenements){
-            return response()->json([
-                'status'=> 200, 
-                'evenements'=>$evenements
-            ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Événement non trouvé"
-            ], 404);
-        }
+        /** */
     }
-
-   /** public function update(Request $request, int $id)
-    
-        $validator= Validator::make($request->all(), [
-            'nom'=>'required|string|max:191',
-        'description'=>'required|string|max:300',
-        'lieu'=>'required|string|max:300',
-        'villes_id'=>'required|string|max:300',
-        'date'=>'required|date',
-        'heure'=>'required|date_format:H:i',
-        'categories_id'=>'required|string|max:300',
-        ]);
-        if($validator->fails()){
-            return response()->json([
-                'status' => 422,
-                'errors' => $validator->messages()
-            ], 422);
-        }else{
-            $evenements= Evenements::find($id);
-                
-            if($evenements){
-                $evenements->update([
-                    'nom'=>'required|string|max:191',
-        'description'=>'required|string|max:300',
-        'lieu'=>'required|string|max:300',
-        'villes_id'=>'required|string|max:300',
-        'date'=>'required|date',
-        'heure'=>'required|date_format:H:i',
-        'categories_id'=>'required|string|max:300',
-                ]);
-                return response()->json([
-                    'status'=> 200, 
-                    'message'=>"Événement mis à jour avec succès"
-                ], 200);
-            }else{
-                return response()->json([
-                    'status'=> 404, 
-                    'message'=>"Événement non mis à jour"
-                ], 404);
-            }
-        }
-        
-    */
 
     public function update(Request $request, int $id)
 {
     $validator = Validator::make($request->all(), [
         'nom' => 'required|string|max:191',
-        'description' => 'required|string|max:300',
+        'description' => 'required|text|max:300',
         'lieu' => 'required|string|max:300',
         'villes_id' => 'required|string|max:300',
         'date' => 'required|date',
@@ -204,4 +149,15 @@ class EevenementsController extends Controller
             ], 404);
         }
     }
+
+
+    public function getEventCompts()
+{
+    $compts = Evenements::select('categories_id', DB::raw('count(*) as total'))
+                   ->groupBy('categories_id')
+                   ->pluck('total', 'categories_id');
+
+    return response()->json($compts);
+}
+
 }
