@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('contenu');
             $table->date('datesend');
-            $table->foreignId('visiteurs_id')->constrained();
+            $table->foreignId('users_id')->constrained();
             $table->timestamps();
         });
     }

@@ -67,5 +67,7 @@ class AuthController extends Controller
     {
         $request->user()->token()->revoke();
         return response(['message' => 'Vous vous êtes déconnecté avec succès !']);
+
+        
     }
 }

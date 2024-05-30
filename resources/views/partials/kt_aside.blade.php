@@ -177,10 +177,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div data-kt-menu-trigger="click" class="menu-item px-6 menu-accordion mb-1">
+                                    <!--<div data-kt-menu-trigger="click" class="menu-item px-6 menu-accordion mb-1">
                                         <span class="menu-link">
                                             <span class="menu-icon">
-                                                <!--begin::Svg Icon | path: /var/www/preview.keenthemes.com/keenthemes/seven/docs/core/html/src/media/icons/duotune/communication/com014.svg-->
                                                 <span class="svg-icon svg-icon-muted svg-icon-2"><svg width="24"
                                                         height="24" viewBox="0 0 24 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -196,7 +195,6 @@
                                                             height="6" rx="3" fill="currentColor" />
                                                     </svg>
                                                 </span>
-                                                <!--end::Svg Icon-->
                                             </span>
                                             <span class="menu-title text-white">Visiteurs</span>
                                             <span class="menu-arrow"></span>
@@ -219,7 +217,7 @@
                                                 </a>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="menu-item px-6 mb-1">
                                         <a class="menu-link" href="{{ route('ville-index') }}">
                                             <span class="menu-icon">

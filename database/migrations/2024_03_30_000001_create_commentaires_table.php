@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->text('contenu');
             $table->unsignedBigInteger('evenements_id');
-            $table->unsignedBigInteger('visiteurs_id');
+            $table->unsignedBigInteger('users_id');
             $table->foreign('evenements_id')->references('id')->on('evenements');
-            $table->foreign('visiteurs_id')->references('id')->on('visiteurs');
+            $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

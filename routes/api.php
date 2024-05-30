@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CcategorieController;
 use App\Http\Controllers\VvilleController;
 use App\Http\Controllers\EevenementsController;
+use App\Http\Controllers\CommentaireController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,11 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout']);
     
 });
+
+
+Route::get('commentaires', [CommentaireController::class, 'index']);
+Route::post('commentaires', [CommentaireController::class, 'store']);
+Route::get('commentaires/{id}', [CommentaireController::class, 'show']);
 
 Route::get('categories', [CcategorieController::class, 'index']);
 Route::post('categories', [CcategorieController::class, 'store']);

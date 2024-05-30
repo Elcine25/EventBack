@@ -10,9 +10,10 @@ class Commentaire extends Model
     use HasFactory;
     protected $table='categories';
     protected $fillable = [
-        'name',
+        'id',
+        'contenu',
         'evenements_id',
-        'visiteur_id'
+        'users_id'
     ];
 
     public function evenements(){
