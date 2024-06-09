@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Commentaire extends Model
+class Vote extends Model
 {
     use HasFactory;
-    protected $table='commentaires';
+    protected $table='votes';
     protected $fillable = [
         'id',
-        'contenu',
+        'vote',
         'evenements_id',
         'users_id'
     ];

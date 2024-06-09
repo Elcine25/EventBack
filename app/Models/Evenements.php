@@ -19,8 +19,14 @@ class Evenements extends Model
         'heure',
         'fichier',
         'categories_id',
-        'villes_id'
+        'villes_id',
+        'mise_en_avant'
     ];
+    public function getFichierUrlAttribute()
+{
+    return asset('storage/Fichiers/' . $this->fichier);
+}
+
 
     public function villes(){
         return $this->belongsTo(Ville::class);

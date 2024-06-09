@@ -14,17 +14,11 @@ class VvilleController extends Controller
     {
         //$user = Auth::user();
         $villes = Ville::all();
-        if($villes->count()>0){
+        
         return response()->json([
             'status'=>200, 
             'villes'=>$villes
         ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Aucun raccord"
-            ], 404);
-        }
     }
 
     public function create()

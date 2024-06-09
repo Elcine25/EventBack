@@ -16,6 +16,11 @@ class Categorie extends Model
         'fichier'
     ];
 
+    public function getFichierUrlAttribute()
+    {
+    return asset('storage/Fichiers/' . $this->fichier);
+    }
+
     public function evenements(){
         return $this->hasMany(Evenements::class);
     }

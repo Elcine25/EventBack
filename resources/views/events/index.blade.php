@@ -84,6 +84,45 @@
                 
                 <!--begin::Body-->
                 <div class="card-body py-3">
+                    <!-- Modal -->
+<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventDetailsModalLabel">Détails de l'événement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="eventDescription"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+                <!--end::Modal-->
+
+                    @if (session('success'))
+                        <div class="alert alert-success d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('success') }}</span>
+                            </div>
+                        </div>
+
+                            
+                        @elseif(session('error'))
+                        <div class="alert alert-danger d-flex align-items-center p-5">
+                            <i class="ki-duotone ki-shield-tick fs-2hx text-primary me-4"><span class="path1"></span><span
+                                    class="path2"></span></i>
+                            <div class="d-flex flex-column">
+                                <span>{{ session('error') }}</span>
+                            </div>
+                        </div>
+                            
+                    @endif
                     @if (session('primary'))
                         <div class="alert alert-primary d-flex align-items-center p-5">
                             <!--begin::Icon-->
@@ -129,6 +168,9 @@
                                     </th>
                                     <th>Ville</th>
                                     <th>Catégorie</th>
+                                    <th class="min-w-100px text-center">
+                                        Mise en avant
+                                    </th>
                                     <th class="min-w-100px text-end">
                                         Actions
                                     </th>
@@ -143,31 +185,54 @@
                                         {{ $loop->index + 1 }}
                                     </td>
                                     <td>{{ $item->nom }}</td>
-                                    <td>{{ $item->fichier }}</td>
+                                    <td>@if($item->fichier)
+                                        <img src="{{ asset('storage/Fichiers/' . $item->fichier) }}" alt="{{ $item->nom }}" style="width: 50px; height: auto;">
+                                    @else
+                                        Aucun fichier
+                                    @endif
+                                </td>
                                     <td>{{ $item->date }}</td>
                                     <td>{{ $item->lieu }}</td>
                                     <td>{{ $item->heure }}</td>
                                     <td>{{ $item->villes->name }}</td>
                                     <td>{{ $item->categories->name }}</td>
                                     <td>
+                                        <div class="d-flex justify-content-center">
+                                            <form id="form-{{ $item->id }}" method="POST" action="{{ route('event-miseenavant', $item->id) }}">
+                                                @csrf
+                                                <div class="form-check form-switch center">
+                                                    <input class="form-check-input"
+                                                           type="checkbox"
+                                                           role="switch"
+                                                           id="flexSwitchCheckDefault{{ $item->id }}"
+                                                           onclick="document.getElementById('form-{{ $item->id }}').submit()"
+                                                           {{ $item->mise_en_avant ? 'checked' : '' }}> <!-- Condition ternaire pour définir l'attribut checked -->
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault{{ $item->id }}"></label>
+                                                </div>
+                                            </form>
+                                            @error('mise_en_avant')
+                                        <span class="invalid-feedback" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                        </div>
+                                    </td>
+                                    
+                                    <td>
                                         <div class="d-flex justify-content-end flex-shrink-0">
-                                                <a href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover"
-                                                    title="Détails de l'événement: {{$item->description}}" data-bs-custom-class="tooltip-dark"
-                                                    class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">
-                                                    <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
-                                                    <span class="svg-icon svg-icon-3">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                            <path
-                                                                d="M12 4.5C7.30558 4.5 3.22702 7.42064 1.48929 12C3.22702 16.5794 7.30558 19.5 12 19.5C16.6944 19.5 20.773 16.5794 22.5107 12C20.773 7.42064 16.6944 4.5 12 4.5ZM12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17Z"
-                                                                fill="black" />
-                                                            <path
-                                                                d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z"
-                                                                fill="black" />
-                                                        </svg>
-                                                    </span>
-                                                    
-                                                    <!--end::Svg Icon-->
-                                                </a>
+                                            
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#eventDetailsModal"
+                                            data-description="{{$item->description}}"
+                                            title="Détails de l'événement: {{$item->description}}" class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">
+                                             <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
+                                             <span class="svg-icon svg-icon-3">
+                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                     <path d="M12 4.5C7.30558 4.5 3.22702 7.42064 1.48929 12C3.22702 16.5794 7.30558 19.5 12 19.5C16.6944 19.5 20.773 16.5794 22.5107 12C20.773 7.42064 16.6944 4.5 12 4.5ZM12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17Z" fill="black" />
+                                                     <path d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z" fill="black" />
+                                                 </svg>
+                                             </span>
+                                             <!--end::Svg Icon-->
+                                         </a>
                                                 <a href="{{route('event-edit', $item->id)}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover"
                                                     title="Modifier l'événement" data-bs-custom-class="tooltip-dark"
                                                     class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">
@@ -195,7 +260,7 @@
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                                         <span class="svg-icon svg-icon-3">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                height="24" viewBox="0 0 24 24" fill="none">
+                                                                height="24" fill="none">
                                                                 <path
                                                                     d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z"
                                                                     fill="black" />
@@ -348,8 +413,6 @@
                 "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
                 ">"
         });
-    </script>
-    <script>
         function confirmDelete(formId) {
             Swal.fire({
                 text: "Êtes-vous sûr de vouloir supprimer cet événement ?",
@@ -365,5 +428,20 @@
                 }
             });
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+        var eventDetailsModal = document.getElementById('eventDetailsModal');
+        eventDetailsModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; // Le bouton qui a déclenché le modal
+            var description = button.getAttribute('data-description'); // Récupérer la description de l'attribut data-description
+            
+            // Mettre à jour le contenu du modal
+            var modalDescription = eventDetailsModal.querySelector('#eventDescription');
+            modalDescription.textContent = description;
+        });
+
+        
+        
+    });
     </script>
 @endsection

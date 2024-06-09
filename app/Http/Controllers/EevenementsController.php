@@ -10,23 +10,26 @@ use App\Models\Evenements;
 use App\Models\Categorie;
 use App\Models\Ville;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Models\Vote;
 
 class EevenementsController extends Controller
 {
     public function index(Request $request)
     {
         $evenements = Evenements::with('villes', 'categories')->get();
-        if($evenements->count()>0){
         return response()->json([
             'status'=>200, 
             'evenements'=>$evenements
         ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Aucun événement"
-            ], 404);
-        };
+        
+    }
+
+    public function miseenavant()
+    {
+        
+        $evenements=Evenements::where('mise_en_avant', true)->get();
+       return response()->json(['statut'=> 200, 'evenements'=>$evenements], 200);
     }
 
     public function create()
@@ -79,9 +82,11 @@ class EevenementsController extends Controller
     {
         $evenements= Evenements::find($id);
         if($evenements){
+            $nombreVotes = Vote::where('evenements_id', $id)->where('vote',true)->count();
             return response()->json([
                 'status'=> 200, 
-                'evenements'=>$evenements
+                'evenements'=>$evenements,
+                'nombre_votes' => $nombreVotes
             ], 200);
         }else{
             return response()->json([
@@ -95,42 +100,6 @@ class EevenementsController extends Controller
     {
         /** */
     }
-
-    public function update(Request $request, int $id)
-{
-    $validator = Validator::make($request->all(), [
-        'nom' => 'required|string|max:191',
-        'description' => 'required|text|max:300',
-        'lieu' => 'required|string|max:300',
-        'villes_id' => 'required|string|max:300',
-        'date' => 'required|date',
-        'heure' => 'required|date_format:H:i',
-        'categories_id' => 'required|string|max:300',
-    ]);
-
-    if ($validator->fails()) {
-        return response()->json([
-            'status' => 422,
-            'errors' => $validator->messages()
-        ], 422);
-    }
-
-    $evenement = Evenements::find($id);
-
-    if (!$evenement) {
-        return response()->json([
-            'status' => 404,
-            'message' => "Événement non trouvé"
-        ], 404);
-    }
-
-    $evenement->update($request->all());
-
-    return response()->json([
-        'status' => 200,
-        'message' => "Événement mis à jour avec succès"
-    ], 200);
-}
 
     public function destroy($id)
     {
@@ -151,13 +120,21 @@ class EevenementsController extends Controller
     }
 
 
-    public function getEventCompts()
-{
-    $compts = Evenements::select('categories_id', DB::raw('count(*) as total'))
-                   ->groupBy('categories_id')
-                   ->pluck('total', 'categories_id');
 
-    return response()->json($compts);
-}
+
+public function getEventCounts()
+    {
+        try {
+            // Supposons que vous avez une table `events` et une relation avec `categories`
+            $eventCounts = DB::table('evenements')
+                ->select('categories_id', DB::raw('count(*) as total'))
+                ->groupBy('categories_id')
+                ->pluck('total', 'categories_id');
+                Log::info($eventCounts);
+            return response()->json($eventCounts, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Une erreur s\'est produite lors de la récupération des comptes d\'événements.'], 500);
+        }
+    }
 
 }

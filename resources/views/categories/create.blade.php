@@ -71,7 +71,13 @@ Enregistrer un catégorie
                             <div class="row w-100">
                                 <div class="imag  mb-3">
                                     <label for="file" class="file border @error('fichier') text-danger @enderror m-2 end">Importer l'icône</label>
-                                    <input type="file" id="image" name="fichier" required >
+                                    <input type="file" id="image" name="fichier" {{ session('temporary_file') ? '' : 'required' }}>
+                
+                @if(session('temporary_file'))
+                    <div>
+                        <a href="{{ Storage::url(session('temporary_file')) }}" target="_blank">Voir l'affiche importée</a>
+                    </div>
+                @endif
                                     @error('fichier')
                                         <span class="invalid-feedback" role="alert">
                                             Importez un fichier de type image.
@@ -143,5 +149,22 @@ Enregistrer un catégorie
     <!-- Modal create -->
 @endsection
 @section('script')
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (document.querySelector("#temp_file")) {
+            let tempFile = document.querySelector("#temp_file").value;
+            let inputFile = document.querySelector("#image");
+            let file = new File(["content"], tempFile.split('/').pop(), {
+                type: "image/jpeg",
+                lastModified: new Date(),
+            });
+            let dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            inputFile.files = dataTransfer.files;
+        }
+    });
+    </script>
+    
 
 @endsection

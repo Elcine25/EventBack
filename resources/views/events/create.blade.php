@@ -72,48 +72,37 @@ Enregistrer un évenement
                             <div class="row w-100">
                                 <div class="imag  mb-3">
                                     <label for="file" class="file border @error('fichier') text-danger @enderror m-2 end">Importer l'affiche</label>
-                                    <input type="file" id="image" name="fichier" required >
+                                    <input type="file" id="image" name="fichier" {{ session('temporary_file') ? '' : 'required' }}>
+                
+                @if(session('temporary_file'))
+                    <div>
+                        <a href="{{ Storage::url(session('temporary_file')) }}" target="_blank">Voir l'affiche importée</a>
+                    </div>
+                @endif
                                     
                                 </div>
+                            
                                 <div class="form-group col-6 mb-5">
                                     <!--begin::Label-->
-                                    <label
-                                        class="d-flex align-items-center fs-5 mb-2"
-                                    >
-                                    <span class="required"
-                                            >Nom</span
-                                        >
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-sm  @error('nom') is-invalid @enderror"
-                                        name="nom"
-                                        id="nom"
-                                        placeholder="Nom de l'événement" required
-                                    />
-                                    @error('nom')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                        <label class="d-flex align-items-center fs-5 mb-2">
+                                            <span class="required">Nom</span>
+                                        </label>
+                                        <input type="text" class="form-control form-control-sm @error('nom') is-invalid @enderror" 
+                                        name="nom" id="nom" placeholder="Nom de l'événement" value="{{ old('nom') }}" required>
+                                        @error('nom')
+                                            <span class="invalid-feedback" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     <!--end::Label-->
                                 </div>
                                 <div class="form-group col-6 mb-5">
                                     <!--begin::Label-->
-                                    <label
-                                        class="d-flex align-items-center fs-5 mb-2"
-                                    >
-                                    <span class=""
-                                            >Date</span
-                                        >
+                                    <label class="d-flex align-items-center fs-5 mb-2">
+                                        <span class="">Date</span>
                                     </label>
-                                    <input
-                                        type="date"
-                                        class="form-control form-control-sm @error('date') text-danger @enderror"
-                                        name="date"
-                                        id="date"
-                                        placeholder="Date de l'événement" required
-                                    />
+                                    <input type="date" class="form-control form-control-sm @error('date') text-danger @enderror" 
+                                    name="date" id="date" placeholder="Date de l'événement" value="{{ old('date') }}" required>
                                     @error('date')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
@@ -123,20 +112,11 @@ Enregistrer un évenement
                                 </div>
                                 <div class="form-group col-6 mb-5">
                                     <!--begin::Label-->
-                                    <label
-                                        class="d-flex align-items-center fs-5 mb-2"
-                                    >
-                                    <span class=""
-                                            >Heure</span
-                                        >
+                                    <label class="d-flex align-items-center fs-5 mb-2">
+                                        <span class="">Heure</span>
                                     </label>
-                                    <input
-                                        type="time"
-                                        class="form-control form-control-sm  @error('heure') text-danger @enderror"
-                                        name="heure"
-                                        id="heure"
-                                        placeholder="Heure de l'événement" required
-                                    />
+                                    <input type="time" class="form-control form-control-sm @error('heure') text-danger  @enderror" 
+                                    name="heure" id="heure" placeholder="Heure de l'événement" value="{{ old('heure') }}" required>
                                     @error('heure')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
@@ -148,22 +128,11 @@ Enregistrer un évenement
                                 <!--begin::Input group-->
                                 <div class="form-group col-6 mb-5">
                                     <!--begin::Label-->
-                                    <label
-                                        class="d-flex align-items-center fs-5 mb-2"
-                                    >
-                                        <span class=""
-                                            >Adresse</span
-                                        >
+                                    <label class="d-flex align-items-center fs-5 mb-2">
+                                        <span class="">Adresse</span>
                                     </label>
-                                    <!--end::Label-->
-                                    <!--begin::Input-->
-                                    <input
-                                        type="text"
-                                        class="form-control @error('lieu') is-invalid @enderror form-control-sm "
-                                        name="lieu"
-                                        id="lieu"
-                                        placeholder="Adresse de l'événement" required
-                                    />
+                                    <input type="text" class="form-control @error('lieu') is-invalid @enderror form-control-sm" 
+                                    name="lieu" id="lieu" placeholder="Adresse de l'événement" value="{{ old('lieu') }}" required>
                                     @error('lieu')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
@@ -175,23 +144,16 @@ Enregistrer un évenement
                                 <!--begin::Input group-->
                                 <div class="form-group col-6 mb-5">
                                     <!--begin::Label-->
-                                    <label
-                                        class="d-flex align-items-center fs-5 mb-2"
-                                    >
-                                        <span class="required"
-                                            >Catégories</span
-                                        >
+                                    <label class="d-flex align-items-center fs-5 mb-2">
+                                        <span class="required">Catégories</span>
                                     </label>
-                                    <!--end::Label-->
-                                    <select name="categories_id"
-                                        class="form-select form-select-sm @error('categories_id') is-invalid @enderror"
-                                        aria-label="Select example" aria-placeholder="sélectionner une catégorie">
+                                    <select name="categories_id" class="form-select form-select-sm @error('categories_id') is-invalid @enderror" 
+                                    aria-label="Select example" aria-placeholder="sélectionner une catégorie">
                                         <option>Sélectionner une catégorie</option>
                                         @foreach ($categories as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
+                                            <option value="{{ $item->id }}" {{ old('categories_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        @endforeach
                                     </select>
-
                                     @error('categories_id')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
@@ -201,24 +163,16 @@ Enregistrer un évenement
                                 </div>
                                 <div class="form-group col-6 mb-5">
                                     <!--begin::Label-->
-                                    <label
-                                        class="d-flex align-items-center fs-5 mb-2"
-                                    >
-                                        <span class="required"
-                                            >Ville</span
-                                        >
+                                    <label class="d-flex align-items-center fs-5 mb-2">
+                                        <span class="required">Ville</span>
                                     </label>
-                                    <!--end::Label-->
-                                    <!--begin::Input-->
-                                    <select name="villes_id"
-                                        class="form-select form-select-sm @error('villes_id') is-invalid @enderror"
-                                        aria-label="Select example" aria-placeholder="sélectionner une catégorie">
+                                    <select name="villes_id" class="form-select form-select-sm @error('villes_id') is-invalid @enderror" 
+                                    aria-label="Select example" aria-placeholder="sélectionner une catégorie">
                                         <option>sélectionner une ville</option>
                                         @foreach ($villes as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
+                                            <option value="{{ $item->id }}" {{ old('villes_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        @endforeach
                                     </select>
-
                                     @error('villes_id')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
@@ -229,22 +183,16 @@ Enregistrer un évenement
 
                                 <div class="form-group col-12 mb-5">
                                     <!--begin::Label-->
-                                    <label
-                                        class="d-flex align-items-center fs-5 mb-2"
-                                    >
-                                        <span class="required"
-                                            >Description</span
-                                        >
+                                    <label class="d-flex align-items-center fs-5 mb-2">
+                                        <span class="required">Description</span>
                                     </label>
-                                    <!--end::Label-->
-                                    <!--begin::Input-->
-                                    <textarea   class="form-control @error('description') is-invalid @enderror form-control-sm " required name="description" id="description" cols="30" rows="10"></textarea>
+                                    <textarea class="form-control @error('description') is-invalid @enderror form-control-sm" 
+                                    name="description" id="description" cols="30" rows="10" required>{{ old('description') }}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
                                         </span>
                                     @enderror
-                                    <!--end::Input-->
                                 </div>
                                
                             </div>
@@ -266,38 +214,31 @@ Enregistrer un évenement
             <!--end::Tables Widget 3-->
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', funtion() {
-            const lieu = document.getElementById('lieu');
-            const nom = document.getElementById('nom');
-            const description = document.getElementById('description');
-            const heure = document.getElementById('heure');
-            const date = document.getElementById('date');
-            const boutton = document.getElementById('boutton');
     
-            function checkTitreExists(){
-                const nameValue= nom.value.trim();
-                const lieuValue= lieu.value.trim();
-                const descriptionValue= description.value.trim();
-                const heureValue= heure.value.trim();
-                const dateValue= date.value.trim();
-    
-                if(nameValue===''){
-                    boutton.disabled=true;
-                }
-                else{
-                    boutton.disabled=false;
-                }
-            }
-            checkTitreExists();
-    
-                nom.addEventListener('input',checkTitreExists);
-        });
-    </script>
     
     <!-- Modal create -->
 @endsection
 @section('script')
+<script>
+    document.addEventListener('DOMContentLoaded', funtion() {
+   
 
+        var dateInput = document.getElementById('date');
+        var today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+
+        if (document.querySelector("#temp_file")) {
+            let tempFile = document.querySelector("#temp_file").value;
+            let inputFile = document.querySelector("#image");
+            let file = new File(["content"], tempFile.split('/').pop(), {
+                type: "image/jpeg",
+                lastModified: new Date(),
+            });
+            let dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            inputFile.files = dataTransfer.files;
+        }
+    });
+</script>
 
 @endsection

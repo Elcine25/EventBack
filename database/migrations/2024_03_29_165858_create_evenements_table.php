@@ -19,6 +19,7 @@ return new class extends Migration
             $table->time('heure');
             $table->string('lieu');
             $table->string('fichier');
+            $table->boolean('mise_en_avant')->default(0);
             $table->foreignId('villes_id')->references('id')->on('villes')->onDelete('cascade');
             $table->foreignId('categories_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();

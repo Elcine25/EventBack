@@ -7,6 +7,7 @@ use App\Http\Controllers\CcategorieController;
 use App\Http\Controllers\VvilleController;
 use App\Http\Controllers\EevenementsController;
 use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\VoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,16 +23,21 @@ use App\Http\Controllers\CommentaireController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-//Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
 Route::middleware('auth:sanctum')->group(function () {
-Route::post('/logout', [AuthController::class, 'logout']);
-    
+//Route::post('commentaires', [CommentaireController::class, 'store']);
+Route::post('/evenements/{eventId}/commentaires', [CommentaireController::class, 'store']);
+Route::post('/evenements/votes', [VoteController::class, 'store']);
+Route::get('evenements/votes/{evenement_id}', [VoteController::class, 'show']);
 });
 
 
 Route::get('commentaires', [CommentaireController::class, 'index']);
-Route::post('commentaires', [CommentaireController::class, 'store']);
-Route::get('commentaires/{id}', [CommentaireController::class, 'show']);
+//Route::post('commentaires', [CommentaireController::class, 'store']);
+Route::get('commentaires/{id}/commentaires', [CommentaireController::class, 'show']);
+//Route::get('/evenements/{id}/commentaires', [CommentaireController::class, 'showw']);
+
 
 Route::get('categories', [CcategorieController::class, 'index']);
 Route::post('categories', [CcategorieController::class, 'store']);
@@ -53,7 +59,9 @@ Route::get('evenements/{id}', [EevenementsController::class, 'show']);
 Route::get('evenements/{id}/edit', [EevenementsController::class, 'edit']);
 Route::put('evenements/{id}/edit', [EevenementsController::class, 'update']);
 Route::delete('evenements/{id}/delete', [EevenementsController::class, 'destroy']);
-Route::get('evenements-counts', [EevenementsController::class, 'getEventCompts']);
+Route::get('evenementscounts', [EevenementsController::class, 'getEventCounts']);
+Route::get('events/miseenavant', [EevenementsController::class, 'miseenavant']);
+
 
 //Route::get('/evenements', [EevenementsController::class, 'getFilteredEvents']);
 

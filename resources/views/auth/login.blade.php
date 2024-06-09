@@ -23,7 +23,7 @@
                     <input class="form-control form-control-sm rounded @error('email') is-invalid @enderror" required type="text" name="email" autofocus placeholder="Entrer votre email"/>
                     @error('email')
                         <span class="invalid-feedback" role="alert">
-                            E-mail incorrecte
+                            {{$message}}
                         </span>
                     @enderror
                 </div>
@@ -42,7 +42,7 @@
             <input class="form-control form-control-sm form-control @error('password') is-invalid @enderror" required type="password" placeholder="Entrer votre mot de passe" name="password" autocomplete="off"/>
             @error('password')
                 <span class="invalid-feedback" role="alert">
-                    Mot de passe incorrecte
+                    {{$message}}
                 </span>
             @enderror
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\EvenementsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VilleController;
+use App\Http\Controllers\VisiteurController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +17,12 @@ use App\Http\Controllers\VilleController;
 |
 */
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', function () {  return view('welcome'); })->name('home');
+    //Route::get('/', function () {  return view('welcome'); })->name('home');
     Route::view("/profile/edit", 'profile.edit');
     Route::view("/profile/password", 'profile.password');
 
-    Route::get('/events', [EvenementsController::class, 'lindex'])->name('event-index');
+    Route::post('/events/{event}/miseenavant', [EvenementsController::class, 'miseenavant'])->name('event-miseenavant');
+    Route::get('/', [EvenementsController::class, 'lindex'])->name('welcome');
     Route::get('/events', [EvenementsController::class, 'index'])->name('event-index');
     Route::get('/events/create', [EvenementsController::class, 'create'])->name('event-create');
     Route::get('/events/edit/{id}', [EvenementsController::class, 'edit'])->name('event-edit');
@@ -41,5 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/villes/store', [VilleController::class, 'store'])->name('ville-store');
     Route::put('/villes/update/{id}', [VilleController::class, 'update'])->name('ville-update');
     Route::delete('/villes/delete/{id}', [VilleController::class, 'destroy'])->name('ville-delete');
+
+    Route::get('/visiteurs', [VisiteurController::class, 'index'])->name('visiteur-index');
+
 
 });

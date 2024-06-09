@@ -72,7 +72,8 @@ Modifier une catégorie
                             <div class="row w-100">
                                 <div class="imag  mb-3">
                                     <label for="file" class="file border @error('fichier') text-danger @enderror m-2 end">Importer l'icône</label>
-                                    <input type="file" id="image" name="fichier" required >
+                                    <input type="file" id="image" name="fichier" 
+                                    value="{{$categorie->fichier}}" />
                                     @error('fichier')
                                         <span class="invalid-feedback" role="alert">
                                             Importez un fichier de type image.

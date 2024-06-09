@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('commentaires', function (Blueprint $table) {
+        Schema::create('mail_subscrips', function (Blueprint $table) {
             $table->id();
-            $table->text('contenu');
+            $table->boolean('subscribe')->default(0);
             $table->unsignedBigInteger('evenements_id');
             $table->unsignedBigInteger('users_id');
             $table->foreign('evenements_id')->references('id')->on('evenements');
@@ -25,8 +25,8 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('commentaires');
+        Schema::dropIfExists('mail_subscrips');
     }
 };

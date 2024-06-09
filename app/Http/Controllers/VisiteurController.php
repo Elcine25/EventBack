@@ -2,62 +2,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Visiteur;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class VisiteurController extends Controller
 {
-    public function register(Request $request)
+    public function index()
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:visiteurs',
-            'password' => 'required|string|min:8',
-        ]);
-    
-        Visiteur::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-        ]);
-
-        $token = $user->createToken('authToken')->accessToken;
-
-        return response(['visiteur' => $visiteur, 'access_token' => $token]);
+        $visiteurs = User::where('roles_id',2);
+        return view('visiteurs.index', compact('visiteurs'));
+         if($visieurs->count()>0){
+         return response()->json([
+             'status'=>200, 
+             'visiteurs'=>$visiteurs
+         ], 200);
+         }else{
+             return response()->json([
+                 'status'=> 404, 
+                 'message'=>"Aucun accord"
+             ], 404);
+         }
     }
 
-    public function login(Request $request)
+    public function show( $id)
     {
-        $loginData = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if (!Auth::attempt($loginData)) {
-            if (Auth::visiteur()->role->code === 'visiteur') {
-                return response()->json([
-                    'status'=> 200, 
-                    'message'=>"Connecté avec succès"
-                ], 200);
-            }/**else{
-                return response()->json([
-                    'status'=> 404, 
-                    'message'=>"Ville non crée"
-                ], 404);
-            }*/
-        } else {
-            return response(['message' => 'Email ou mot de passe incorrecte.']);
+        $visiteurs= User::find($id);
+        if($visiteur){
+            return response()->json([
+                'status'=> 200, 
+                'user'=>$visiteur
+            ], 200);
+        }else{
+            return response()->json([
+                'status'=> 404, 
+                'message'=>"User non trouvée"
+            ], 404);
         }
-
-        $accessToken = Auth::visiteur()->createToken('authToken')->accessToken;
-
-        return response(['visiteur' => Auth::visiteur(), 'access_token' => $accessToken]);
-    }
-
-    public function logout(Request $request)
-    {
-        $request->user()->token()->revoke();
-        return response(['message' => 'Vous vous êtes déconnecté aves succès !']);
     }
 }

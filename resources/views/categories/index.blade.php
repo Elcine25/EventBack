@@ -20,8 +20,7 @@
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
                         <span class="me-2 text-gray-800 mt-2 fs-6 text-uppercase">Liste des Catégories</span>
-                        <span class="text-muted mt-1 fs-7">Au total 
-                             catégorie(s)</span>
+                        <span class="text-muted mt-1 fs-7">Au total {{$categories->count()}}  catégorie(s)</span>
                     </h3>
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
                         <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
@@ -97,7 +96,12 @@
                                             {{ $loop->index + 1 }}
                                         </td>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{$item->fichier}}</td>
+                                        <td>@if($item->fichier)
+                                            <img src="{{ asset('storage/Fichiers/' . $item->fichier) }}" alt="{{ $item->nom }}" style="width: 40px; height: auto;">
+                                        @else
+                                            Aucun fichier
+                                        @endif
+                                    </td>
                                         <td>{{ $item->description }}</td>
                                         <td>
                                             <div class="d-flex justify-content-end flex-shrink-0">

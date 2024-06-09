@@ -66,7 +66,7 @@
                                     <!--begin::Info-->
                                     <div class="text-white">
                                         <span class="fw-semibold d-block fs-8 opacity-75"></span>
-                                        <span class="fw-bold fs-7">Evénements</span>
+                                        <span class="fw-bold fs-7">Au total {{$evenements->count()}} Evénements enregistrés</span>
                                     </div>
                                     <!--end::Info-->
                                 </div>
@@ -97,7 +97,7 @@
                                     <!--begin::Info-->
                                     <div class="text-white">
                                         <span class="fw-semibold opacity-75 d-block fs-8"></span>
-                                        <span class="fw-bold fs-7">Villes</span>
+                                        <span class="fw-bold fs-7">De  Villes</span>
                                     </div>
                                     <!--end::Info-->
                                 </div>
@@ -168,10 +168,13 @@
                         <table id="pme_table" class="table table-bordered table-sm table-hover">
                             <!--begin::Table head-->
                             <thead class="bg-primary">
-                                <tr class="fw-bolder text-white ">
-                                    <th class="text-start ms-4">#</th>
+                                <tr class="fw-bolder text-white">
+                                    <th class=" text-center">#</th>
                                     <th>
                                         Nom
+                                    </th>
+                                    <th>
+                                        Image
                                     </th>
                                     <th>
                                         Date
@@ -192,7 +195,99 @@
                             <!--end::Table head-->
                             <!--begin::Table body-->
                             <tbody>
-                                <!---->
+                                @foreach ($evenements as $item)
+                                <tr>
+                                    <td class="text-center">
+                                        {{ $loop->index + 1 }}
+                                    </td>
+                                    <td>{{ $item->nom }}</td>
+                                    <td>@if($item->fichier)
+                                        <img src="{{ asset('storage/Fichiers/' . $item->fichier) }}" alt="{{ $item->nom }}" style="width: 50px; height: auto;">
+                                    @else
+                                        Aucun fichier
+                                    @endif
+                                </td>
+                                    <td>{{ $item->date }}</td>
+                                    <td>{{ $item->lieu }}</td>
+                                    <td>{{ $item->heure }}</td>
+                                    <td>{{ $item->villes->name }}</td>
+                                    <td>{{ $item->categories->name }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-end flex-shrink-0">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#eventDetailsModal"
+                                            data-description="{{$item->description}}"
+                                            title="Détails de l'événement: {{$item->description}}" class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">
+                                             <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
+                                             <span class="svg-icon svg-icon-3">
+                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                     <path d="M12 4.5C7.30558 4.5 3.22702 7.42064 1.48929 12C3.22702 16.5794 7.30558 19.5 12 19.5C16.6944 19.5 20.773 16.5794 22.5107 12C20.773 7.42064 16.6944 4.5 12 4.5ZM12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17Z" fill="black" />
+                                                     <path d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z" fill="black" />
+                                                 </svg>
+                                             </span>
+                                             <!--end::Svg Icon-->
+                                         </a>
+                                         <!--<a href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover"
+                                                    title="Détails de l'événement: {{$item->description}}" data-bs-custom-class="tooltip-dark"
+                                                    class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">
+                                                    <span class="svg-icon svg-icon-3">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                            <path
+                                                                d="M12 4.5C7.30558 4.5 3.22702 7.42064 1.48929 12C3.22702 16.5794 7.30558 19.5 12 19.5C16.6944 19.5 20.773 16.5794 22.5107 12C20.773 7.42064 16.6944 4.5 12 4.5ZM12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17Z"
+                                                                fill="black" />
+                                                            <path
+                                                                d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z"
+                                                                fill="black" />
+                                                        </svg>
+                                                    </span>
+                                                    
+                                                </a>-->
+                                                <a href="{{route('event-edit', $item->id)}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover"
+                                                    title="Modifier l'événement" data-bs-custom-class="tooltip-dark"
+                                                    class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn me-1">
+                                                    <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
+                                                    <span class="svg-icon svg-icon-3">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none">
+                                                            <path opacity="0.3"
+                                                                d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z"
+                                                                fill="black" />
+                                                            <path
+                                                                d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z"
+                                                                fill="black" />
+                                                        </svg>
+                                                    </span>
+                                                </a>
+                                            
+                                                <form id="deleteForm{{ $item->id }}" method="POST"
+                                                    action="{{ route('event-delete', $item->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <a type="button" onclick="confirmDelete('{{ $item->id }}')" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover"
+                                                        title="Supprimer l'événement" data-bs-custom-class="tooltip-dark"
+                                                        class="btn btn-icon btn-bg-light btn-active-color-primary iconBtn">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+                                                        <span class="svg-icon svg-icon-3">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none">
+                                                                <path
+                                                                    d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z"
+                                                                    fill="black" />
+                                                                <path opacity="0.5"
+                                                                    d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z"
+                                                                    fill="black" />
+                                                                <path opacity="0.5"
+                                                                    d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z"
+                                                                    fill="black" />
+                                                            </svg>
+                                                        </span>
+                                                        <!--end::Svg Icon-->
+                                                    </a>
+                                                </form>
+                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                             <!--end::Table body-->
                         </table>

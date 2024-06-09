@@ -73,7 +73,7 @@ Modifier un évenement
                             <div class="row w-100">
                                 <div class="imag  mb-3">
                                     <label for="file" class="file border @error('fichier') text-danger @enderror m-2 end">Importer l'affiche</label>
-                                    <input type="file" id="image" name="fichier" required >
+                                    <input type="file" id="image" name="fichier">
                                     @error('fichier')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
@@ -81,6 +81,7 @@ Modifier un évenement
                                     @enderror
                                 </div>
                                 <div class="form-group col-6 mb-5">
+                                    
                                     <!--begin::Label-->
                                     <label
                                         class="d-flex align-items-center fs-5 mb-2"
@@ -137,7 +138,7 @@ Modifier un évenement
                                     </label>
                                     <input
                                         type="time"
-                                        class="form-control form-control-sm  @error('heure') text-danger @enderror"
+                                        class="form-control form-control-sm  @error('heure') is-invalid text-danger @enderror"
                                         name="heure"
                                         placeholder="Heure de l'événement"
                                         value="{{$evenements->heure}}"

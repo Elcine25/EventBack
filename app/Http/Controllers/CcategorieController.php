@@ -7,24 +7,28 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreCategorieRequest;
 use App\Http\Requests\UpdateCategorieRequest;
 use App\Models\Categorie;
+use App\Models\Evenements;
 
 class CcategorieController extends Controller
 {
     public function index()
     {
-        //$user = Auth::user();
+        $categ = Categorie::orderBy('created_at', 'desc')->take(4)->get();
         $categories = Categorie::all();
-        if($categories->count()>0){
+
+            foreach ($categories as $categorie) {
+                $categorie['count'] = Evenements::where('categories_id', $categorie->id)->count();
+            }
+            foreach ($categ as $categorie) {
+                $categorie['count'] = Evenements::where('categories_id', $categorie->id)->count();
+            }
+        
         return response()->json([
             'status'=>200, 
-            'categories'=>$categories
+            'categories'=>$categories,
+            'categ'=>$categ, 
         ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Aucun raccord"
-            ], 404);
-        }
+        
     }
 
     public function create()
