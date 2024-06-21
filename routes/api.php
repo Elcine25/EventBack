@@ -8,6 +8,7 @@ use App\Http\Controllers\VvilleController;
 use App\Http\Controllers\EevenementsController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\MailSubscripController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/evenements/{eventId}/commentaires', [CommentaireController::class, 'store']);
 Route::post('/evenements/votes', [VoteController::class, 'store']);
 Route::get('evenements/votes/{evenement_id}', [VoteController::class, 'show']);
+Route::post('/subscribe', [MailSubscripController::class, 'etreNotifie']);
 });
 
 
@@ -61,6 +63,10 @@ Route::put('evenements/{id}/edit', [EevenementsController::class, 'update']);
 Route::delete('evenements/{id}/delete', [EevenementsController::class, 'destroy']);
 Route::get('evenementscounts', [EevenementsController::class, 'getEventCounts']);
 Route::get('events/miseenavant', [EevenementsController::class, 'miseenavant']);
+
+Route::get('/evenements/search', [EevenementsController::class, 'search']);
+Route::get('/evenements/filter', [EevenementsController::class, 'filter']);
+
 
 
 //Route::get('/evenements', [EevenementsController::class, 'getFilteredEvents']);

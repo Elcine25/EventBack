@@ -12,17 +12,131 @@ use App\Models\Ville;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Vote;
+use Carbon\Carbon;
 
 class EevenementsController extends Controller
 {
-    public function index(Request $request)
+    /**public function filterVille(Request $request)
     {
-        $evenements = Evenements::with('villes', 'categories')->get();
-        return response()->json([
-            'status'=>200, 
-            'evenements'=>$evenements
-        ], 200);
-        
+        // Récupérer les paramètres de filtrage
+        $villeId = $request->input('ville_id');
+
+        // Construire la requête de base
+        $query = Evenements::query();
+
+        // Filtrer par ville
+        if ($villeId) {
+            $query->where('villes_id', $villeId);
+        }
+
+        // Exécuter la requête et obtenir les résultats
+        $evenements = $query->get();
+
+        return response()->json(['status' => 200, 'evenements' => $evenements], 200);
+    }
+
+    public function filterCateg(Request $request)
+    {
+        // Récupérer les paramètres de filtrage
+        $categorieId = $request->input('categorie_id');
+
+        // Construire la requête de base
+        $query = Evenements::query();
+
+        // Filtrer par catégorie
+        if ($categorieId) {
+            $query->where('categories_id', $categorieId);
+        }
+
+        // Exécuter la requête et obtenir les résultats
+        $evenements = $query->get();
+
+        return response()->json(['status' => 200, 'evenements' => $evenements], 200);
+    }
+
+    public function filterDate(Request $request)
+    {
+        $date = $request->input('date');
+        // Construire la requête de base
+        $query = Evenements::query();
+
+        // Filtrer par date du jour
+        if ($date) {
+            $query->whereDate('date', $date);
+        }
+
+        // Exécuter la requête et obtenir les résultats
+        $evenements = $query->get();
+
+        return response()->json(['status' => 200, 'evenements' => $evenements], 200);
+    }
+
+    public function filterMois(Request $request)
+    {
+        // Récupérer les paramètres de filtrage
+        $mois = $request->input('mois');
+
+        // Construire la requête de base
+        $query = Evenements::query();
+
+        // Filtrer par mois
+        if ($mois) {
+            $query->whereMonth('date', Carbon::parse($mois)->month);
+        }
+
+        // Exécuter la requête et obtenir les résultats
+        $evenements = $query->get();
+
+        return response()->json(['status' => 200, 'evenements' => $evenements], 200);
+    }*/
+
+    public function filter(Request $request)
+    {
+        // Récupérer les paramètres de filtrage
+        $villeId = $request->input('villes_id');
+        $categorieId = $request->input('categorie_id');
+        $date = $request->input('date');
+        $mois = $request->input('mois');
+
+        // Construire la requête de base
+        $query = Evenements::query();
+
+        // Filtrer par ville
+        if ($villeId) {
+            $query->where('villes_id', $villeId);
+        }
+
+        // Filtrer par catégorie
+        if ($categorieId) {
+            $query->where('categories_id', $categorieId);
+        }
+
+        // Filtrer par date
+        if ($date) {
+            $query->whereDate('date', $date);
+        }
+
+        // Filtrer par mois
+        if ($mois) {
+            $query->whereMonth('date', Carbon::parse($mois)->month);
+        }
+
+        // Exécuter la requête et obtenir les résultats
+        $evenements = $query->get();
+
+        return response()->json(['status' => 200, 'evenements' => $evenements], 200);
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $evenements = Evenements::where('nom', 'LIKE', "%{$query}%")
+            ->orWhere('description', 'LIKE', "%{$query}%")
+            ->orWhere('lieu', 'LIKE', "%{$query}%")
+            ->get();
+
+        return response()->json(['status' => 200, 'evenements' => $evenements], 200);
     }
 
     public function miseenavant()
@@ -32,51 +146,7 @@ class EevenementsController extends Controller
        return response()->json(['statut'=> 200, 'evenements'=>$evenements], 200);
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        $validator= Validator::make($request->all(), [
-        'nom'=>'required|string|max:191',
-        'description'=>'required|text|max:300',
-        'lieu'=>'required|string|max:300',
-        'villes_id'=>'required|max:300',
-        'date'=>'required|date',
-        'heure'=>'required|date_format:H:i',
-        'categories_id'=>'required|max:300',
-        ]);
-        if($validator->fails()){
-        return response()->json([
-            'status' => 422,
-            'errors'=> $validator->messages()
-        ], 422);
-        }else{
-        $evenements= Evenements::create([
-            'nom' =>$request->nom,
-            'description' =>$request->description,
-            'lieu' =>$request->lieu,
-            'villes_id' =>$request->villes_id,
-            'date' =>$request->date,
-            'heure' =>$request->heure,
-            'categories_id' =>$request->categories_id,
-        ]);
-        if($evenements){
-            return response()->json([
-                'status'=> 200, 
-                'message'=>"Événement crée avec succès"
-            ], 200);
-        }else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Événement non crée"
-            ], 404);
-        }
-    }
     
-    }
 
     public function show( $id)
     {
@@ -101,27 +171,7 @@ class EevenementsController extends Controller
         /** */
     }
 
-    public function destroy($id)
-    {
-        $evenements= Evenements::find($id);
-        if($evenements){
-            $evenements->delete();
-            return responcse()->json([
-                'status'=> 200, 
-                'message'=>"Événement supprimé avec succès"
-            ], 200);
-        }
-        else{
-            return response()->json([
-                'status'=> 404, 
-                'message'=>"Événement non supprimé"
-            ], 404);
-        }
-    }
-
-
-
-
+    
 public function getEventCounts()
     {
         try {

@@ -100,8 +100,8 @@ class EvenementsController extends Controller
             },
         ],
         'categories_id'=>'required|max:300',
-    ], $messages);
-    if ($validator->fails()) {
+        ], $messages);
+        if ($validator->fails()) {
         if ($request->hasFile('fichier')) {
             $filename = $request->file('fichier')->getClientOriginalName();
             session()->flash('temporary_filename', $filename);
@@ -110,11 +110,11 @@ class EvenementsController extends Controller
         return redirect()->back()
             ->withErrors($validator)
             ->withInput()->with('error', 'Il y a une erreur d\'enregistrement.');
-    }
+        }
 
-    $filename = session('temporary_filename');
+        $filename = session('temporary_filename');
 
-    if ($request->hasFile('fichier')) {
+        if ($request->hasFile('fichier')) {
         $file = $request->file('fichier');
         $filename = $file->getClientOriginalName();
         $newfile = $file->storeAs('Fichiers', $filename, 'public');
@@ -133,12 +133,12 @@ class EvenementsController extends Controller
         ]);
         return redirect()->route('event-index')->with('success', 'Evenement ajoutée avec succès');
 
-    }
-    else
-    {
+        }
+        else
+        {
         return back('erreursurvenue');
-    }
-    }
+        }
+        }
     }
 
     public function show( $id)

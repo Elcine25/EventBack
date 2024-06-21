@@ -56,7 +56,7 @@ class AuthController extends Controller
 
     $token = $user->createToken('authen')->accessToken;
 
-    return response()->json(['user' => $user, 'access_token' => $token]);
+    return response()->json(['user' => $user, 'access_token' => $token,'message' => 'Un "visitor" a crée un compte.']);
 }
 
 

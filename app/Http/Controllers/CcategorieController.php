@@ -8,14 +8,16 @@ use App\Http\Requests\StoreCategorieRequest;
 use App\Http\Requests\UpdateCategorieRequest;
 use App\Models\Categorie;
 use App\Models\Evenements;
+use Illuminate\Support\Facades\Log;
 
 class CcategorieController extends Controller
 {
     public function index()
     {
-        $categ = Categorie::orderBy('created_at', 'desc')->take(4)->get();
+        $categ = Categorie::orderBy('created_at', 'desc')->get();
         $categories = Categorie::all();
-
+        $categcount = Categorie::all()->count();
+    Log::info($categcount);
             foreach ($categories as $categorie) {
                 $categorie['count'] = Evenements::where('categories_id', $categorie->id)->count();
             }
@@ -26,7 +28,8 @@ class CcategorieController extends Controller
         return response()->json([
             'status'=>200, 
             'categories'=>$categories,
-            'categ'=>$categ, 
+            'categ'=>$categ,
+            'categcount'=>$categcount,
         ], 200);
         
     }

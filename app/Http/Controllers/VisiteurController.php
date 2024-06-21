@@ -10,7 +10,7 @@ class VisiteurController extends Controller
 {
     public function index()
     {
-        $visiteurs = User::where('roles_id',2);
+        $visiteurs = User::all();
         return view('visiteurs.index', compact('visiteurs'));
          if($visieurs->count()>0){
          return response()->json([

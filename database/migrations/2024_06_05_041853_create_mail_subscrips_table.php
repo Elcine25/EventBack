@@ -16,8 +16,10 @@ return new class extends Migration
             $table->boolean('subscribe')->default(0);
             $table->unsignedBigInteger('evenements_id');
             $table->unsignedBigInteger('users_id');
+            $table->unsignedBigInteger('categories_id');
             $table->foreign('evenements_id')->references('id')->on('evenements');
             $table->foreign('users_id')->references('id')->on('users');
+            $table->foreign('categories_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }
